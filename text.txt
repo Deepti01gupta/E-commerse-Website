@@ -1,0 +1,133 @@
+
+project start process: 
+npm init
+npm i express nodemon ejs mongoose
+npm start
+
+
+http://localhost:8080/products
+
+
+for database:
+mongosh
+show dbs
+use shopping-sam-app
+show collections
+db.products.find()
+db.reviews.deleteMany({});
+
+
+
+
+
+TASK 1: basic server created and checked
+
+TASK 2: DB to be connected (to let server and database interact with each other)
+
+Jab bhi ham koi project banate hai to project k seperation of concern(soc) yaad rakhte hai
+views : templets
+public : static files
+model : collections & schema (start the file name with capital letters)
+shcema -> model -> DB (mogoose) -> require
+
+export : jab hamne koi cheej ek file mai banai h or hame usse dusri file 
+main use krna hai to usse export krte hai
+
+TASK 3: Creating schema
+
+TASK 4: Initial/Dummy data adding 
+ek baar m bahut sara data db main add krne k liye " insertMany([]) " k use krte hai 
+jo ek inputs ke array ko bhejte hai 
+seed.js main ham apne initial data ko bhejte hai 
+seed -> array -> inserting data
+Db k sare methods(eg: insertmany, etc) promise return krte hai
+seedDB(); = ye sirf ek baar chalana h initial data add krne k liye uske baad usko comment out kr denge
+
+TASK 5: DB main se product show/display krne hai
+get and post method is use
+hamara server express k hai to ham express ko require krenge
+aap.js application ki instance hai isko ham export nahi kr skte
+const router=express.Router(); // mini instance
+
+
+populate is a technique.
+dusri collections se render krate hai to populate use krte hai
+product se review m data chahiye ye review m product se data chahiye
+jab ek particular product ko show krenge tbhi uske sath reviews bhi show kr denge
+
+
+
+time wali cheejo k sath kam krne ke liye hamare pass timestamp hota hai
+
+
+Middleware in Express is a function that runs between the request and the response.
+It can:
+-> modify the request or response
+-> run code before the route handler
+-> stop the request (e.g., authentication, validation)
+-> or pass it on to the next middleware/route
+pre: mmiddleware chalne se phele
+post: middleware chalne ke baad
+findById and findByIdAndDelete behind k seen middleware ki use kr rha h
+pre and post schema k middleware hai
+
+
+
+
+
+
+
+
+
+
+Validation
+
+Validation means checking whether the data is correct and acceptable.
+It makes sure that whatever the user enters follows the rules you set in your schema or form.
+There are two main types of validation:
+1. Client-side validation → Done in the browser (front-end).
+Example: If a field is marked as required, the browser won’t let the user submit until they fill it.
+2. Server-side validation → Done on the backend (schema or server).
+Example: In Mongoose, if you set { required: true } for a field, the server will reject saving the data if it’s missing.
+
+
+required:
+This is used to make sure the user must enter a value.
+Example: If you mark name as required, the form won’t allow submission (client-side), and the server will also check (server-side) if the field is empty.
+
+novalidate :
+By default, the browser performs client-side validation on required fields.
+If you add novalidate in the <form> tag, it turns off browser validation.
+That means the user can submit the form even if required fields are empty — then only server-side validation will catch errors.
+
+
+
+Joi:
+Joi is one of the most powerful npm packages used for server-side validation.
+It acts like a schema description language – meaning you first create a schema that defines the structure and rules for your data.
+It validates incoming data (e.g., from forms or API requests) against that schema before saving it in the database.
+
+Steps to use Joi -
+1. Create a Schema: 
+Define a Joi schema separately.
+This schema contains the rules (like required, min, max, string, number, etc.)
+
+2. Validate Data with the Schema:
+Wherever you receive data (like in your route handler), you validate it using that schema.
+
+
+
+Cookies and session: 
+client side storage, key valye pair, server-client, 
+for personalization, session management, tracking
+state-full : jo jo previous state ke upar depend hote hai
+state-less: jo jo previous state ke upar depend nahi hote hai
+packages: Cookie-parser
+
+res.cookie => jab store karana hota hai
+req.Cookie => jab bahut sari ek sath dekhni hoti hai
+
+cookie are not secure
+we should use singed Cookies
+
+session(server side storage) is more safer then cookies(client side storage)
