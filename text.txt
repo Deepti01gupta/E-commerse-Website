@@ -117,17 +117,79 @@ Wherever you receive data (like in your route handler), you validate it using th
 
 
 
-Cookies and session: 
-client side storage, key valye pair, server-client, 
-for personalization, session management, tracking
-state-full : jo jo previous state ke upar depend hote hai
-state-less: jo jo previous state ke upar depend nahi hote hai
-packages: Cookie-parser
+Cookies: 
+Client-side storage mechanism that stores data in key–value pairs.
+Usage:
+Personalization (e.g., remembering user preferences).
+Session management (e.g., staying logged in).
+Tracking user activity.
 
-res.cookie => jab store karana hota hai
-req.Cookie => jab bahut sari ek sath dekhni hoti hai
+Nature:
+Cookies are stored on the client (browser).
+They are not very secure (can be read/modified by users).
+To improve security, we can use signed cookies.
 
-cookie are not secure
-we should use singed Cookies
+Packages: 
+cookie-parser → Common middleware in Node.js for handling cookies.
 
-session(server side storage) is more safer then cookies(client side storage)
+Important Methods:
+res.cookie() → Used to store a cookie in the client’s browser.
+req.cookies → Used to read multiple cookies from the client request.
+
+Sessions:
+Server-side storage that keeps track of user data across requests in key value pair.
+More secure than cookies, since data is not exposed directly to the client.
+Typically, the client only stores a session ID cookie, while the actual data stays on the server.
+
+Stateful vs Stateless:
+Stateful → Depends on the previous state (e.g., sessions).
+Stateless → Does not depend on previous state (e.g., simple API request without login).
+
+
+flash(): 
+flash messages (or simply "flash") are temporary messages that are stored on the server and shown to the user only once, usually after a redirect.
+Key Points about Flash Messages:
+They are short-lived → exist for a single request–response cycle.
+
+Commonly used for:
+Success messages (✅ "Your product was added!")
+Error messages (❌ "Invalid email or password.")
+Informational alerts (ℹ️ "You have been logged out.")
+
+Implemented in Node.js apps using packages like connect-flash or sometimes with session middleware.
+
+
+locals :
+locals are local variables that can be accessed directly inside your views (like EJS, Pug, Handlebars).
+Instead of passing the same variable manually in every res.render(), you can define it once and use it everywhere.
+
+Types of Locals:
+1. res.locals:
+Scoped to a single response.
+Variables are available only for that request–response cycle.
+
+2. app.locals:
+Scoped to the entire application.
+Available in all views for the lifetime of the app.
+
+Why use Locals:
+-> To avoid repeating variables in every res.render().
+-> For global data like app name, user info, year, etc.
+-> Helps in consistent rendering across multiple views.
+
+
+
+
+
+
+
+https://www.passportjs.org/packages/passport-local/
+Authentication & Authorisation:
+using passport.js 
+password -> hashed -> store
+
+SHA (Secure Hash Algorithm) technique - agar output se input retrive ho jaye to it is not a hashing function.
+
+passport - passport-local(strategies) , passport-local-mongoose(hashing)
+
+

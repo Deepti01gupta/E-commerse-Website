@@ -34,6 +34,7 @@ router.post('/products', validateProduct , async(req,res)=>{
     try{
         let {name,img,price,desc} = req.body;
         await Product.create({name,img,price,desc});
+        req.flash('success','product added successfully');
         res.redirect('/products');
     }
     catch(e){
@@ -47,10 +48,10 @@ router.get('/products/:id',async(req,res)=>{
     try{
         let {id}=req.params;
         let foundProduct=await Product.findById(id).populate('reviews');
-        res.render('products/show',{foundProduct});
+        res.render('products/show',{foundProduct, msg:req.flash('msg')});
     }
     catch(e){
-        res.status(500).render('error',{err:e.message});
+        res.status(500).render('error',{err:e.message,});
     }
 })
 
@@ -74,6 +75,7 @@ router.put('/products/:id', validateProduct ,async(req,res)=>{
         let {id}=req.params;
         let {name,img,price,desc} =req.body;
         await Product.findByIdAndUpdate(id,{name,img,price,desc});
+        req.flash('success','product edited successfully');
         res.redirect(`/products/${id}`);
     }
     catch(e){
@@ -102,6 +104,7 @@ router.delete('/products/:id', async(req,res)=>{
     try{
         let {id}=req.params;
         await Product.findByIdAndDelete(id);
+        req.flash('success','product deleted successfully');
         res.redirect('/products');
     }
     catch(e){

@@ -8,7 +8,8 @@ const productRoutes=require('./routes/product');
 const reviewRoutes=require('./routes/review');
 const ejsMate=require('ejs-mate');
 const methodOverride=require('method-override');
-
+const flash = require('connect-flash');
+const session = require('express-session');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/shopping-sam-app')  // database connection
@@ -32,6 +33,19 @@ app.use(express.static(path.join(__dirname,'public')));  // public folder
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+
+let configSession = {
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}
+app.use(session(configSession));
+app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 
 app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye

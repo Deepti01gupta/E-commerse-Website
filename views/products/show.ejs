@@ -1,8 +1,22 @@
 
 <% layout('layouts/boilerplate') %>
 <%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>   <!-- displaying flash  -->
 <div class="row">
         <div class="col-lg-6 mt-3">
+
+            <!-- displaying flash -->
+             <!-- <div class="mb-3">
+                <% if(msg && msg.length){ %>
+                    <div class="alert alert-success" role="alert">
+                        <strong><%= msg%></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+             </div> -->
+
+
+
             <div class="card shadow mx-auto" style="width: 18rem;">
                 <img src="<%= foundProduct.img %>" class="card-img-top" alt="...">
                 <div class="card-body">
