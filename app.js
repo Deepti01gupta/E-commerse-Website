@@ -4,12 +4,18 @@ const app=express();
 const path=require('path');
 const mongoose = require('mongoose');
 const seedDB=require('./seed');
-const productRoutes=require('./routes/product');
-const reviewRoutes=require('./routes/review');
 const ejsMate=require('ejs-mate');
 const methodOverride=require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+
+const productRoutes=require('./routes/product');
+const reviewRoutes=require('./routes/review');
+const authRoutes=require('./routes/auth');
+
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const User = require('./models/User');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/shopping-sam-app')  // database connection
@@ -33,23 +39,43 @@ app.use(express.static(path.join(__dirname,'public')));  // public folder
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
-
+// session
 let configSession = {
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 24*7*60*60*1000,
+    maxAge: 24*7*60*60*1000
+  }
 }
 app.use(session(configSession));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
+    res.locals.currentuser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
 
+// passport wali
+passport.use(new localStrategy(User.authenticate()));
+
+
 app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye
-app.use(reviewRoutes);
+app.use(reviewRoutes);  // so that har incoming request ke liye path check kiya jaye
+app.use(authRoutes);   // so that har incoming request ke liye path check kiya jaye
+
+
+
 
 // seeding DB
 // seedDB();

@@ -191,5 +191,23 @@ password -> hashed -> store
 SHA (Secure Hash Algorithm) technique - agar output se input retrive ho jaye to it is not a hashing function.
 
 passport - passport-local(strategies) , passport-local-mongoose(hashing)
+password directly store nahi hota hai hashing or salt k use krke hota hai
 
 
+static methods: static method vo method hote hai jo directly apke schema ke upar lag jaye
+1. authenticate(): Generates a function that is used in Passport's LocalStrategy
+2. serializeUser(): Generates a function that is used by Passport to serialize users into the session
+3. deserializeUser(): Generates a function that is used by Passport to deserialize users into the session
+4. register(user, password, cb): Convenience method to register a new user instance with a given password. Checks if username is unique. See login example.
+5. findByUsername(): Convenience method to find a user instance by it's unique username.
+6. createStrategy(): Creates a configured passport-local LocalStrategy instance that can be used in passport.
+
+
+sam : 123
+bob : 123
+max : 123
+mav : 123
+
+jab bhi ham logout krenge tb ham ek callback function m jake req.logout() call krte hai
+
+after login apke req k object ke ander ek or object hota hai req.user
