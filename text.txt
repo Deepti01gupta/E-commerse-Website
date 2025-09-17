@@ -44,7 +44,7 @@ Db k sare methods(eg: insertmany, etc) promise return krte hai
 seedDB(); = ye sirf ek baar chalana h initial data add krne k liye uske baad usko comment out kr denge
 
 TASK 5: DB main se product show/display krne hai
-get and post method is use
+get and post method is use 
 hamara server express k hai to ham express ko require krenge
 aap.js application ki instance hai isko ham export nahi kr skte
 const router=express.Router(); // mini instance
@@ -70,10 +70,6 @@ pre: mmiddleware chalne se phele
 post: middleware chalne ke baad
 findById and findByIdAndDelete behind k seen middleware ki use kr rha h
 pre and post schema k middleware hai
-
-
-
-
 
 
 
@@ -184,16 +180,53 @@ Why use Locals:
 
 
 https://www.passportjs.org/packages/passport-local/
-Authentication & Authorisation:
-using passport.js 
-password -> hashed -> store
+Authentication & Authorization with Passport.js
+1. Authentication vs Authorization:
+Authentication → Verifying who the user is (login/signup).
+Authorization → Deciding what the authenticated user is allowed to do (permissions, roles, access levels).
 
-SHA (Secure Hash Algorithm) technique - agar output se input retrive ho jaye to it is not a hashing function.
+2. Password Handling:
+Never store passwords directly in the database.
+Instead:
+Hash the password (convert it into an irreversible fixed-length string).
+Add salt (a random value) to protect against rainbow table attacks.
+Store only the hash + salt, not the raw password.
 
-passport - passport-local(strategies) , passport-local-mongoose(hashing)
-password directly store nahi hota hai hashing or salt k use krke hota hai
+3. Hashing vs Encryption:
+Hashing → One-way process (cannot get back original input).
+Encryption → Two-way process (can decrypt back to original input).
+Example:
+SHA (Secure Hash Algorithm) is a hashing function.
+If an algorithm allows you to retrieve the original password from the output, then it’s not hashing, it’s encryption.
+
+4. Passport.js:
+Passport → Authentication middleware for Node.js.
+Provides different strategies (ways to authenticate).
+
+5. Strategies:
+passport-local
+A strategy to authenticate using username/email + password.
+passport-local-mongoose
+Mongoose plugin that integrates with passport-local.
+Handles password hashing, salting, and authentication automatically.
+You only store username and email; plugin adds fields for hash and salt.
+
+6. Flow of User Signup/Login:
+User enters username + password.
+Password is hashed + salted before being stored in DB.
+During login, entered password is hashed again.
+
+7. Logout:
+To log out, you call req.logout() inside a callback function.
+This removes req.user from the session.
+
+This means:
+Login → req.user is added.
+Logout → req.user is removed.
 
 
+
+Hash is compared with stored hash → if match → authentication success.
 static methods: static method vo method hote hai jo directly apke schema ke upar lag jaye
 1. authenticate(): Generates a function that is used in Passport's LocalStrategy
 2. serializeUser(): Generates a function that is used by Passport to serialize users into the session
@@ -203,11 +236,13 @@ static methods: static method vo method hote hai jo directly apke schema ke upar
 6. createStrategy(): Creates a configured passport-local LocalStrategy instance that can be used in passport.
 
 
-sam : 123
-bob : 123
+sam : 123, seller
+bob : 123, buyer
+tom : 123, seller
 max : 123
-mav : 123
 
-jab bhi ham logout krenge tb ham ek callback function m jake req.logout() call krte hai
 
-after login apke req k object ke ander ek or object hota hai req.user
+2 object id ko compare krenge to == ye === nahi denge uske liye function use krenge "equals" wala
+
+
+ADD TO CART:

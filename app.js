@@ -12,10 +12,14 @@ const session = require('express-session');
 const productRoutes=require('./routes/product');
 const reviewRoutes=require('./routes/review');
 const authRoutes=require('./routes/auth');
+const cartRoutes=require('./routes/cart');
 
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/User');
+
+
+
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/shopping-sam-app')  // database connection
@@ -26,6 +30,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/shopping-sam-app')  // database conn
     console.log("DB error");
     console.log(err);
 })
+
+
+
 
 
 // view engine ek engine hai jo express k pass default present hai
@@ -59,27 +66,28 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>{
-    res.locals.currentuser = req.user;
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 })
 
 
+
 // passport wali
 passport.use(new localStrategy(User.authenticate()));
-
-
-app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye
-app.use(reviewRoutes);  // so that har incoming request ke liye path check kiya jaye
-app.use(authRoutes);   // so that har incoming request ke liye path check kiya jaye
-
 
 
 
 // seeding DB
 // seedDB();
 
+
+
+app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye
+app.use(reviewRoutes);  // so that har incoming request ke liye path check kiya jaye
+app.use(authRoutes);   // so that har incoming request ke liye path check kiya jaye
+app.use(cartRoutes);  // so that har incoming request ke liye path check kiya jaye
 
 
 
@@ -89,19 +97,4 @@ const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/products`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

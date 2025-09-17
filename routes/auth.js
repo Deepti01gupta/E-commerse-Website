@@ -12,10 +12,10 @@ router.get('/register', (req,res)=>{
 
 
 // actually want to register a user in mu DB
-router.post('/register',async (req,res)=>{
+router.post('/register',async (req,res,next)=>{
     try{
-        let {email, password, username} = req.body;
-        const user = new User({email,username});
+        let {email, password, username, role} = req.body;
+        const user = new User({email,username, role});
         const newUser = await User.register(user,password);
         // res.send(newUser);  // new user k data send kr rhe h
 

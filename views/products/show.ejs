@@ -24,9 +24,13 @@
                     <h5 class="card-title"><%= foundProduct.price %></h5>
                     <p class="card-text"><%= foundProduct.desc %></p>
                     <div class="d-flex justify-content-between">
-                        <a href="/products/<%=foundProduct._id%>/edit" class="btn btn-sm btn-dark">Edit</a>
-                        <a href="#" class="btn btn-sm btn-secondary">Buy Product</a>
-                        <a href="#" class="btn btn-sm btn-light">Add to cart</a>
+                        <% if(currentUser && currentUser.role === 'seller') { %>
+                            <a href="/products/<%=foundProduct._id%>/edit" class="btn btn-sm btn-dark">Edit</a>
+                        <% } %>
+                        <form method="POST" action="/user/<%=foundProduct._id%>/add" class="d-inline-block">
+                            <button class="btn btn-sm btn-secondary">Add to cart</button>
+                        </form>
+                        <a href="" class="btn btn-sm btn-light">Buy Product</a>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ const express = require('express');
 const Product = require('../models/Product');  // to fetch data from product
 const Review = require('../models/Review');
 const router = express.Router(); // mini instance
-const {validateProduct, isLoggedIn} = require('../middleware');
+const {validateProduct, isLoggedIn, isSeller, isProductAuthor} = require('../middleware');
 
 // to show all the products
 router.get('/products', isLoggedIn, async (req,res)=>{
@@ -30,10 +30,10 @@ router.get('/product/new', isLoggedIn, (req,res)=>{
 
 
 // to actually add the product
-router.post('/products', validateProduct, isLoggedIn, async(req,res)=>{
+router.post('/products', validateProduct, isLoggedIn, isSeller, async(req,res)=>{
     try{
         let {name,img,price,desc} = req.body;
-        await Product.create({name,img,price,desc});
+        await Product.create({name,img,price,desc, author: req.user._id});
         req.flash('success','product added successfully');
         res.redirect('/products');
     }
@@ -85,6 +85,7 @@ router.put('/products/:id', validateProduct , isLoggedIn ,async(req,res)=>{
 
 
 // to delete a product
+
 // ye assan tareeka hai reviews wale collection se delete krne k
 // router.delete('/products/:id', async(req,res)=>{
 //     let {id}=req.params;
@@ -99,7 +100,7 @@ router.put('/products/:id', validateProduct , isLoggedIn ,async(req,res)=>{
 
 
 // ye devloper way hai jisme ham middleware use krte hai Product.js wali file m
-router.delete('/products/:id', isLoggedIn , async(req,res)=>{
+router.delete('/products/:id', isLoggedIn, isProductAuthor, async(req,res)=>{
     
     try{
         let {id}=req.params;

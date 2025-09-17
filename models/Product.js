@@ -26,7 +26,11 @@ const productSchema=new mongoose.Schema({  // schema creation
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'  // reference dete hai ki object id kaha s leni hai
         }
-    ]
+    ],
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 

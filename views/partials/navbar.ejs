@@ -9,9 +9,13 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/products">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/product/new">New</a>
-        </li>
+
+        <% if(currentUser && currentUser.role === 'seller') { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/product/new">New</a>
+          </li>
+        <% } %>
+        
         <!-- <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li> -->
@@ -22,12 +26,13 @@
       </form> -->
 
       <div class="d-flex" role="search">
-        <% if(!currentuser){ %>
+        <% if(!currentUser){ %>
           <a class="nav-link mx-2" href="/login">Login</a>
         <% } else { %>
-          <a class="nav-link mx-2" href="">
+          <a href="#" class="nav-link">Hello, <%=currentUser.username%></a>
+          <a class="nav-link mx-2" href="/user/cart">
             <i class="fa-solid fa-cart-shopping"></i>
-            <sup> <span class="badge bg-danger">2</span></sup>
+            <sup> <span class="badge bg-danger"><%=currentUser.cart.length%></span></sup>
           </a>
           <a class="nav-link mx-2" href="/logout">Logout</a>
         <% } %>
