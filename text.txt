@@ -66,7 +66,7 @@ It can:
 -> run code before the route handler
 -> stop the request (e.g., authentication, validation)
 -> or pass it on to the next middleware/route
-pre: mmiddleware chalne se phele
+pre: middleware chalne se phele
 post: middleware chalne ke baad
 findById and findByIdAndDelete behind k seen middleware ki use kr rha h
 pre and post schema k middleware hai
@@ -76,7 +76,7 @@ pre and post schema k middleware hai
 
 
 
-Validation
+Validation:
 
 Validation means checking whether the data is correct and acceptable.
 It makes sure that whatever the user enters follows the rules you set in your schema or form.
@@ -246,3 +246,4 @@ max : 123
 
 
 ADD TO CART:
+ 
