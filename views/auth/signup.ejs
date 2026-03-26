@@ -1,44 +1,73 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <%- include('../partials/flash') %>  
-        <h1 class="display-6">Sign up </h1>
-        <form action="/register" method="POST">
+<div class="auth-wrap row g-0 align-items-stretch">
+    <div class="col-lg-6 auth-left">
+        <div class="auth-card card">
+            <div class="card-body p-4 p-md-5">
+                <p class="auth-brand mb-4">Logo Here</p>
+                <%- include('../partials/flash') %>
+                <p class="text-muted small mb-2">Create your account</p>
+                <h1 class="auth-title mb-4">Sign up</h1>
 
-            <div class="mb-3">
-                <label class="form-label" for="username">Username: </label>
-                <input class="form-control" type="text" name="username" id="username" placeholder="username">
+                <form action="/register" method="POST" autocomplete="off">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted" for="username">USERNAME</label>
+                        <input class="form-control" type="text" name="username" id="username" placeholder="username" autocomplete="off" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small text-muted" for="email">EMAIL</label>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="email" autocomplete="off" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small text-muted d-block">ROLE</label>
+                        <div class="d-flex gap-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" value="buyer" id="buyer" required>
+                                <label class="form-check-label" for="buyer">Buyer</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role" value="seller" id="seller" required>
+                                <label class="form-check-label" for="seller">Seller</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small text-muted" for="password">PASSWORD</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="**********" autocomplete="new-password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-auth text-white">SIGN UP</button>
+                    <p class="text-muted mt-4 mb-0">Already have an account ? <a href="/login" class="text-decoration-none" style="color:#ef6b4a;">Sign in</a></p>
+
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="email">Email: </label>
-                <input class="form-control" type="email" name="email" id="email" placeholder="email">
-            </div>
-
-            <div class="mb-3">
-                <p>Want to register as ?</p>
-                <div class="mx-2">
-                    <label class="form-label" for="buyer">Buyer: </label>
-                    <input class="form-check-input" type="radio" name="role" value="buyer" id="buyer">
-                </div>
-                <div class="mx-2">
-                    <label class="form-label" for="seller">Seller: </label>
-                    <input class="form-check-input" type="radio" name="role" value="seller" id="seller">
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="password">Password: </label>
-                <input class="form-control" type="password" name="password" id="password" placeholder="password">
-            </div>
-
-            <button type="submit" class="btn btn-sm btn-success">Sign Up</button>
-            <p class="fw-light mt-2">Already have an account <a href="/login">Login</a></p>
-
-        </form>
-
+        </div>
     </div>
 
+    <div class="col-lg-6 auth-right">
+        <div class="auth-illustration">
+            <i class="fa-solid fa-bag-shopping"></i>
+        </div>
+        <h2 class="h4 mt-3">Join The Store</h2>
+        <p class="auth-subtext mb-0">Create an account to start buying and selling quickly.</p>
+    </div>
 </div>
+
+<script>
+    window.addEventListener('pageshow', function () {
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const buyerInput = document.getElementById('buyer');
+        const sellerInput = document.getElementById('seller');
+        if (usernameInput) usernameInput.value = '';
+        if (emailInput) emailInput.value = '';
+        if (passwordInput) passwordInput.value = '';
+        if (buyerInput) buyerInput.checked = false;
+        if (sellerInput) sellerInput.checked = false;
+    });
+</script>
 

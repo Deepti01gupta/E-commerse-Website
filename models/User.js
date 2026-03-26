@@ -12,12 +12,15 @@ const userSchema=new mongoose.Schema({  // schema creation
         type: String,
         required: true
     },
-    cart: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-        }
-    ]
+    cart: {
+        type: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product'
+            }
+        ],
+        default: []
+    }
 })
 
 userSchema.plugin(passportLocalMongoose);

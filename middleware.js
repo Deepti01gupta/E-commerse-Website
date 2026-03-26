@@ -34,12 +34,16 @@ const isLoggedIn = (req,res,next)=>{
 }
 
 const isSeller = (req,res,next)=>{
-    if(!req.user.role){
+    if(!req.user || req.user.role !== 'seller'){
         req.flash('error','You donnot have the permission to do that');
         return res.redirect('/products');
     }
-    else if(req.user.role !== 'seller'){
-        req.flash('error','You donnot have the permission to do that');
+    next();
+}
+
+const isBuyer = (req,res,next)=>{
+    if(!req.user || req.user.role !== 'buyer'){
+        req.flash('error','Only buyers can perform this action.');
         return res.redirect('/products');
     }
     next();
@@ -48,12 +52,16 @@ const isSeller = (req,res,next)=>{
 const isProductAuthor = async (req,res,next)=>{
     let {id} = req.params;  //product id
     let product = await Product.findById(id);
-    if(!product.author.equals(req.user._id)){
+    if(!product){
+        req.flash('error','Product not found.');
+        return res.redirect('/products');
+    }
+    if(!product.author || !product.author.equals(req.user._id)){
         req.flash('error','You are not the authorized user.');
         return res.redirect('/products');
     }
     next();
 }
 
-module.exports = {validateProduct ,validateReview, isLoggedIn, isSeller, isProductAuthor} ;
+module.exports = {validateProduct ,validateReview, isLoggedIn, isSeller, isBuyer, isProductAuthor} ;
 

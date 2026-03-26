@@ -1,26 +1,50 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="row">
-    <div class="col-md-6 mx-auto">
-        <%- include('../partials/flash') %>  
-        <h1 class="display-6">Login </h1>
-        <form action="/login" method="POST">
+<div class="auth-wrap row g-0 align-items-stretch">
+    <div class="col-lg-6 auth-left">
+        <div class="auth-card card">
+            <div class="card-body p-4 p-md-5">
+                <p class="auth-brand mb-4">Logo Here</p>
+                <%- include('../partials/flash') %>
+                <p class="text-muted small mb-2">Welcome back !!!</p>
+                <h1 class="auth-title mb-4">Sign in</h1>
 
-            <div class="mb-3">
-                <label class="form-label" for="username">Username: </label>
-                <input class="form-control" type="text" name="username" id="username" placeholder="username">
+                <form action="/login" method="POST" autocomplete="off">
+                    <div class="mb-3">
+                        <label class="form-label small text-muted" for="username">USERNAME</label>
+                        <input class="form-control" type="text" name="username" id="username" placeholder="username" autocomplete="off" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label small text-muted" for="password">PASSWORD</label>
+                            <span class="small text-muted">Forgot Password ?</span>
+                        </div>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="**********" autocomplete="new-password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-auth text-white">SIGN IN</button>
+                    <p class="text-muted mt-4 mb-0">I don’t have an account ? <a href="/register" class="text-decoration-none" style="color:#ef6b4a;">Sign up</a></p>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label" for="password">Password: </label>
-                <input class="form-control" type="password" name="password" id="password" placeholder="password">
-            </div>
-
-            <button type="submit" class="btn btn-sm btn-success">Login</button>
-            <p class="fw-light mt-2">Don't have an account <a href="/register">Signup</a></p>
-        </form>
-
+        </div>
     </div>
 
+    <div class="col-lg-6 auth-right">
+        <div class="auth-illustration">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <h2 class="h4 mt-3">Shop Smart</h2>
+        <p class="auth-subtext mb-0">Discover deals, manage products, and checkout faster.</p>
+    </div>
 </div>
+
+<script>
+    window.addEventListener('pageshow', function () {
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        if (usernameInput) usernameInput.value = '';
+        if (passwordInput) passwordInput.value = '';
+    });
+</script>
 

@@ -3,10 +3,10 @@ const express=require('express');
 const Product = require('../models/Product');
 const Review = require('../models/Review');
 const router=express.Router(); // mini instance
-const {validateReview} = require('../middleware');
+const {validateReview, isLoggedIn, isBuyer} = require('../middleware');
 
 // to post reviews
-router.post('/products/:productId/review' , validateReview, async(req,res)=>{
+router.post('/products/:productId/review' , isLoggedIn, isBuyer, validateReview, async(req,res)=>{
         try{
                 let {productId} = req.params;
                 let {rating , comment} = req.body;

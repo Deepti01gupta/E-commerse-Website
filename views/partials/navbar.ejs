@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm rounded-3 mb-4 app-navbar">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="#">Shopping App</a>
+      <a class="navbar-brand fw-bold" href="/products">Shopping App</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/products">Home</a>
+          <a class="nav-link" aria-current="page" href="/products">Home</a>
         </li>
 
         <% if(currentUser && currentUser.role === 'seller') { %>
@@ -25,16 +25,22 @@
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form> -->
 
-      <div class="d-flex" role="search">
+      <div class="d-flex align-items-center" role="search">
+        <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm me-2" type="button" aria-label="Toggle light and dark mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
         <% if(!currentUser){ %>
-          <a class="nav-link mx-2" href="/login">Login</a>
+          <a class="btn btn-outline-primary btn-sm mx-2" href="/login">Login</a>
+          <a class="btn btn-primary btn-sm" href="/register">Sign up</a>
         <% } else { %>
-          <a href="#" class="nav-link">Hello, <%=currentUser.username%></a>
-          <a class="nav-link mx-2" href="/user/cart">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <sup> <span class="badge bg-danger"><%=currentUser.cart.length%></span></sup>
-          </a>
-          <a class="nav-link mx-2" href="/logout">Logout</a>
+          <a href="#" class="nav-link text-muted">Hello, <%=currentUser.username%></a>
+          <% if(currentUser.role === 'buyer'){ %>
+            <a class="nav-link mx-2 position-relative" href="/user/cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <sup><span class="badge bg-danger rounded-pill"><%= currentUser.cart ? currentUser.cart.length : 0 %></span></sup>
+            </a>
+          <% } %>
+          <a class="btn btn-outline-danger btn-sm mx-2" href="/logout">Logout</a>
         <% } %>
       </div>
     </div>

@@ -2,30 +2,49 @@
 <%- include('../partials/navbar') %>
 <%- include('../partials/flash') %>   <!-- displaying flash  -->
 
-<div class="container">
-    <div class="row">
+<div class="container product-page">
+    <section class="product-hero mb-4">
+        <div>
+            <p class="product-hero-sub mb-1">Discover and manage your catalog</p>
+            <h1 class="product-hero-title mb-0">All Products</h1>
+        </div>
+        <% if(currentUser && currentUser.role === 'seller'){ %>
+            <a href="/product/new" class="btn btn-primary px-4">Add New Product</a>
+        <% } %>
+    </section>
+
+    <div class="row g-4">
+        <% if(products.length === 0){ %>
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 text-center py-5">
+                    <div class="card-body">
+                        <h2 class="h4">No products yet</h2>
+                        <p class="text-muted mb-3">Start by adding your first product.</p>
+                        <a href="/product/new" class="btn btn-primary px-4">Create Product</a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
         <% for (let item of products) { %>
-            <div class="col-lg-4 col-md-6 mt-3 d-flex">
-                <div class="card shadow mx-auto h-100" style="width: 18rem;">
-                    
-                    <!-- Fixed size image -->
-                    <img src="<%= item.img %>" class="card-img-top" alt="..." 
-                         style="height: 200px; object-fit: cover;">
-                    
-                    <!-- Flexbox to push buttons to bottom -->
+            <div class="col-xl-3 col-lg-4 col-md-6 d-flex">
+                <div class="card product-card border-0 shadow-sm mx-auto h-100 rounded-4 w-100">
+                    <img src="<%= item.img %>" class="card-img-top product-image" alt="<%= item.name %>">
+
                     <div class="card-body d-flex flex-column">
-                        <h2 class="card-title"><%= item.name %></h2>
-                        <h5 class="card-title text-success">₹ <%= item.price %></h5>
-                        <p class="card-text flex-grow-1"><%= item.desc %></p>
-                        
-                        <div class="mt-auto">
-                            <a href="/products/<%=item._id%>" class="btn btn-info">View Product</a>
-                            
-                            <% if(currentUser && currentUser.role === 'seller') { %>
-                                <form class="d-inline-block" 
-                                      action="/products/<%=item._id%>?_method=DELETE" 
-                                      method="POST">
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h2 class="card-title h5 mb-0"><%= item.name %></h2>
+                            <span class="badge rounded-pill text-bg-light product-price">₹ <%= item.price %></span>
+                        </div>
+
+                        <p class="card-text text-muted flex-grow-1 product-desc"><%= item.desc %></p>
+
+                        <div class="mt-auto d-flex gap-2 flex-wrap">
+                            <a href="/products/<%=item._id%>" class="btn btn-outline-info btn-sm">View</a>
+                            <% if(currentUser && currentUser.role === 'seller' && item.author && String(item.author) === String(currentUser._id)){ %>
+                                <a href="/products/<%=item._id%>/edit" class="btn btn-outline-dark btn-sm">Edit</a>
+                                <form class="d-inline-block" action="/products/<%=item._id%>?_method=DELETE" method="POST">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
                                 </form>
                             <% } %>
                         </div>

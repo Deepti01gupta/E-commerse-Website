@@ -1,8 +1,12 @@
 <% layout('layouts/boilerplate') %>
 <%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
 
-<div class="row">
-    <div class="col-6 mx-auto">
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+        <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+        <h1 class="h3 mb-4">Edit Product</h1>
         <form action="/products/<%= foundProduct._id %>?_method=PUT" method="POST" class="needs-validation" novalidate>
 
             <div class="mb-3">
@@ -40,7 +44,7 @@
 
             <div class="mb-3">
                 <label for="desc">Description: </label>
-                <textarea name="desc" id="desc" placeholder="Description of product" required><%= foundProduct.desc %></textarea>
+                <textarea class="form-control" rows="4" name="desc" id="desc" placeholder="Description of product" required><%= foundProduct.desc %></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -49,9 +53,11 @@
                 </div>
             </div>
 
-            <button class="btn btn-sm btn-success" type="submit">Edit Product</button>
+            <button class="btn btn-success" type="submit">Save Changes</button>
 
         </form>
+        </div>
+        </div>
     </div>
 
 </div>
@@ -79,6 +85,3 @@
     })()
 
 </script>
-
-</body>
-</html>

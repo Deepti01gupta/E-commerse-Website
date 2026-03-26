@@ -1,4 +1,6 @@
 
+require('dotenv').config();
+
 const express = require('express');
 const app=express();
 const path=require('path');
@@ -82,6 +84,10 @@ passport.use(new localStrategy(User.authenticate()));
 // seeding DB
 // seedDB();
 
+app.get('/', (req,res)=>{
+  res.redirect('/login');
+})
+
 
 
 app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye
@@ -95,6 +101,6 @@ app.use(cartRoutes);  // so that har incoming request ke liye path check kiya ja
 const PORT = 8080;
 
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/products`);
+  console.log(`Server running at http://localhost:${PORT}/login`);
 });
 

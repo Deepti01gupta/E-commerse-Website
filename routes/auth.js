@@ -10,6 +10,10 @@ router.get('/register', (req,res)=>{
     res.render('auth/signup');
 })
 
+router.get('/signup', (req,res)=>{
+    res.redirect('/register');
+})
+
 
 // actually want to register a user in mu DB
 router.post('/register',async (req,res,next)=>{
@@ -32,7 +36,7 @@ router.post('/register',async (req,res,next)=>{
     catch(e){
         req.flash('error', e.message);
         // res.status(500).render('error',{err:e.message});
-        return res.redirect('/signup');
+        return res.redirect('/register');
     }
     
 })
@@ -47,7 +51,7 @@ router.get('/login', (req,res)=>{
 router.post('/login', 
     passport.authenticate('local', { 
         failureRedirect: '/login', 
-        failureMessage: true 
+        failureFlash: 'Invalid username or password'
     }),
     (req,res)=>{
         // console.log(req.user,'sam');
@@ -59,11 +63,13 @@ router.post('/login',
 
 // logout
 router.get('/logout', (req,res)=>{
-    ()=>{
-        req.logOut();
-    }
-    req.flash('success', 'goodbye friends, see you again');
-    res.redirect('/login');
+    req.logout(function(err){
+        if(err){
+            return res.status(500).render('error',{err: err.message});
+        }
+        req.flash('success', 'goodbye friends, see you again');
+        res.redirect('/login');
+    });
 })
 
 module.exports = router;
