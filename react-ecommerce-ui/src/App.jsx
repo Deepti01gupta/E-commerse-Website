@@ -5,6 +5,9 @@ import Header from "./components/layout/Header";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const WishlistPage = lazy(() => import("./pages/WishlistPage"));
 const CartPage = lazy(() => import("./pages/CartPage"));
+const CheckoutPage = lazy(() => import("./pages/checkout/CheckoutPage"));
+const CheckoutSuccessPage = lazy(() => import("./pages/checkout/CheckoutSuccessPage"));
+const CheckoutFailurePage = lazy(() => import("./pages/checkout/CheckoutFailurePage"));
 
 const LoadingScreen = () => (
   <div className="mx-auto mt-10 max-w-7xl px-4">
@@ -24,6 +27,9 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+          <Route path="/checkout/failure" element={<CheckoutFailurePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

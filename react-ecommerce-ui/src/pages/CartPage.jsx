@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CartItemRow from "../components/cart/CartItemRow";
 import RecommendedProducts from "../components/cart/RecommendedProducts";
 import { useStore } from "../context/StoreContext";
@@ -54,12 +55,12 @@ export default function CartPage() {
             <span>Total</span>
             <span>Rs. {cartTotal > 2500 ? cartTotal : cartTotal + 199}</span>
           </div>
-          <button
-            type="button"
-            className="mt-4 w-full rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+          <Link
+            to="/checkout"
+            className="mt-4 block rounded-lg bg-brand-500 px-4 py-2 text-center text-sm font-semibold text-white hover:bg-brand-600"
           >
             Checkout
-          </button>
+          </Link>
         </section>
 
         <RecommendedProducts items={recommendedProducts} />
