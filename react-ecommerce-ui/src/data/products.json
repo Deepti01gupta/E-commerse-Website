@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "AirFlux Running Sneakers",
+    "price": 2899,
+    "rating": 4.5,
+    "category": "Footwear",
+    "brand": "StrideX",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80",
+    "description": "Lightweight running shoes with breathable mesh upper."
+  },
+  {
+    "id": 2,
+    "name": "Urban Slate Backpack",
+    "price": 1999,
+    "rating": 4.2,
+    "category": "Bags",
+    "brand": "NomadCore",
+    "image": "https://images.unsplash.com/photo-1491637639811-60e2756cc1c7?auto=format&fit=crop&w=900&q=80",
+    "description": "Water-resistant daily backpack with laptop sleeve."
+  },
+  {
+    "id": 3,
+    "name": "Pulse Smartwatch X2",
+    "price": 6499,
+    "rating": 4.7,
+    "category": "Electronics",
+    "brand": "Voltix",
+    "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
+    "description": "AMOLED smartwatch with heart-rate and sleep tracking."
+  },
+  {
+    "id": 4,
+    "name": "CloudSoft Cotton Hoodie",
+    "price": 2499,
+    "rating": 4.1,
+    "category": "Apparel",
+    "brand": "NorthLoom",
+    "image": "https://images.unsplash.com/photo-1572495641004-28421ae29a4d?auto=format&fit=crop&w=900&q=80",
+    "description": "Premium brushed cotton hoodie for everyday comfort."
+  },
+  {
+    "id": 5,
+    "name": "Studio Pro Wireless Headphones",
+    "price": 8999,
+    "rating": 4.8,
+    "category": "Electronics",
+    "brand": "Audiowave",
+    "image": "https://images.unsplash.com/photo-1484704849700-f032a568e944?auto=format&fit=crop&w=900&q=80",
+    "description": "Noise-cancelling headphones with 40-hour battery."
+  },
+  {
+    "id": 6,
+    "name": "TerraGrip Trail Shoes",
+    "price": 3799,
+    "rating": 4.4,
+    "category": "Footwear",
+    "brand": "StrideX",
+    "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=900&q=80",
+    "description": "Rugged outsole and ankle support for trail runs."
+  },
+  {
+    "id": 7,
+    "name": "AeroLite Sunglasses",
+    "price": 1599,
+    "rating": 4.0,
+    "category": "Accessories",
+    "brand": "SunArc",
+    "image": "https://images.unsplash.com/photo-1577803645773-f96470509666?auto=format&fit=crop&w=900&q=80",
+    "description": "UV400 polarized lenses in lightweight metal frame."
+  },
+  {
+    "id": 8,
+    "name": "Minimal Leather Wallet",
+    "price": 1199,
+    "rating": 3.9,
+    "category": "Accessories",
+    "brand": "CraftFold",
+    "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=900&q=80",
+    "description": "Slim genuine leather wallet with RFID protection."
+  },
+  {
+    "id": 9,
+    "name": "NovaFit Yoga Mat",
+    "price": 1399,
+    "rating": 4.3,
+    "category": "Fitness",
+    "brand": "ZenForm",
+    "image": "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?auto=format&fit=crop&w=900&q=80",
+    "description": "Non-slip textured yoga mat with carrying strap."
+  },
+  {
+    "id": 10,
+    "name": "Hydra Insulated Bottle",
+    "price": 999,
+    "rating": 4.6,
+    "category": "Fitness",
+    "brand": "ZenForm",
+    "image": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=900&q=80",
+    "description": "Keeps drinks cold for 24h and hot for 12h."
+  },
+  {
+    "id": 11,
+    "name": "Orbit Desk Lamp",
+    "price": 1799,
+    "rating": 4.2,
+    "category": "Home",
+    "brand": "LumaNest",
+    "image": "https://images.unsplash.com/photo-1531218150217-54595bc2b934?auto=format&fit=crop&w=900&q=80",
+    "description": "Dimmable LED lamp with touch controls and USB-C."
+  },
+  {
+    "id": 12,
+    "name": "ChefCraft Nonstick Pan",
+    "price": 2299,
+    "rating": 4.4,
+    "category": "Home",
+    "brand": "Kitchena",
+    "image": "https://images.unsplash.com/photo-1584990347449-a1f5f9f4fbd8?auto=format&fit=crop&w=900&q=80",
+    "description": "3-layer nonstick surface for effortless cooking."
+  }
+]
