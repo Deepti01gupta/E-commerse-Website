@@ -21,15 +21,24 @@ const productSchema=new mongoose.Schema({  // schema creation
         type: String,
         trim: true
     },
+    // Seller Information
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    sellerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'  // reference dete hai ki object id kaha s leni hai
         }
     ],
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 

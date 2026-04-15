@@ -1,0 +1,87 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">📅 My Booked Orders</h2>
+            
+            <%- include('../partials/flash') %>
+
+            <% if (bookings.length === 0) { %>
+                <div class="alert alert-info text-center py-5">
+                    <h5>No booked orders yet</h5>
+                    <p>You haven't booked any orders for later.</p>
+                    <a href="/products" class="btn btn-primary">Continue Shopping</a>
+                </div>
+            <% } else { %>
+                <div class="row">
+                    <% bookings.forEach(booking => { %>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: <%= booking.status === 'pending' ? '#fff3cd' : booking.status === 'confirmed' ? '#cfe2ff' : '#d1e7dd' %>">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">
+                                            <%= booking.bookingId %>
+                                        </h5>
+                                        <span class="badge <%= booking.status === 'pending' ? 'bg-warning' : booking.status === 'confirmed' ? 'bg-info' : booking.status === 'cancelled' ? 'bg-danger' : 'bg-success' %>">
+                                            <%= booking.status.toUpperCase() %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-2">
+                                        <small>Booked on: <%= new Date(booking.bookingDate).toLocaleDateString() %></small>
+                                    </p>
+                                    <p class="text-muted mb-3">
+                                        <small>Expected on: <%= new Date(booking.expectedBookingDate).toLocaleDateString() %></small>
+                                    </p>
+
+                                    <div class="mb-3">
+                                        <h6>Items (<%= booking.items.length %>)</h6>
+                                        <ul class="list-unstyled small">
+                                            <% booking.items.forEach(item => { %>
+                                                <li class="d-flex justify-content-between">
+                                                    <span><%= item.name %> (x<%= item.quantity %>)</span>
+                                                    <strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <strong>Total Amount:</strong>
+                                        <h5 class="text-success mb-0">₹<%= booking.pricing.total.toFixed(2) %></h5>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <a href="/booking/<%= booking._id %>" class="btn btn-sm btn-info">View Details</a>
+                                    <% if (booking.status !== 'cancelled' && booking.status !== 'converted_to_purchase') { %>
+                                        <form method="POST" action="/booking/<%= booking._id %>/convert-to-order" style="display: inline;">
+                                            <button type="submit" class="btn btn-sm btn-success">Convert to Order</button>
+                                        </form>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <h6 class="alert-heading">ℹ️ About Booked Orders</h6>
+                <ul class="mb-0">
+                    <li><strong>Pending:</strong> Your booking is awaiting confirmation</li>
+                    <li><strong>Confirmed:</strong> Your items are reserved and ready to be purchased</li>
+                    <li><strong>Converted to Purchase:</strong> Booking has been converted to an actual order</li>
+                    <li><strong>Cancelled:</strong> The booking was cancelled</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

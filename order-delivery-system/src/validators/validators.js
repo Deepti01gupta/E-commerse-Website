@@ -28,7 +28,7 @@ const orderValidators = {
       longitude: Joi.number()
     }).required(),
     paymentDetails: Joi.object({
-      method: Joi.string().enum('credit_card', 'debit_card', 'upi', 'wallet').required(),
+      method: Joi.string().valid('credit_card', 'debit_card', 'upi', 'wallet').required(),
       amount: Joi.number().required(),
       currency: Joi.string().default('INR')
     }).required()
@@ -36,7 +36,7 @@ const orderValidators = {
 
   updateOrderStatus: Joi.object({
     newStatus: Joi.string()
-      .enum('placed', 'confirmed', 'shipped', 'out_for_delivery', 'delivered', 'cancelled')
+      .valid('placed', 'confirmed', 'shipped', 'out_for_delivery', 'delivered', 'cancelled')
       .required(),
     message: Joi.string().required(),
     location: Joi.object({
@@ -66,7 +66,7 @@ const returnValidators = {
   createReturnRequest: Joi.object({
     orderId: Joi.string().required(),
     reason: Joi.string()
-      .enum('defective_product', 'not_as_described', 'damaged_in_shipping', 'wrong_item_received', 'changed_mind', 'other')
+      .valid('defective_product', 'not_as_described', 'damaged_in_shipping', 'wrong_item_received', 'changed_mind', 'other')
       .required(),
     items: Joi.array()
       .items(
@@ -88,7 +88,7 @@ const returnValidators = {
 
   updateReturnStatus: Joi.object({
     status: Joi.string()
-      .enum('initiated', 'approved', 'rejected', 'shipped_back', 'received', 'completed', 'cancelled')
+      .valid('initiated', 'approved', 'rejected', 'shipped_back', 'received', 'completed', 'cancelled')
       .required(),
     message: Joi.string().required()
   })
@@ -104,7 +104,7 @@ const refundValidators = {
 
   updateRefundStatus: Joi.object({
     status: Joi.string()
-      .enum('pending', 'processed', 'completed', 'failed', 'cancelled')
+      .valid('pending', 'processed', 'completed', 'failed', 'cancelled')
       .required(),
     message: Joi.string().required()
   }),
@@ -129,14 +129,14 @@ const trackingValidators = {
       city: Joi.string().required(),
       state: Joi.string().required()
     }).required(),
-    event: Joi.string().enum('pickup', 'in_transit', 'checkpoint', 'out_for_delivery', 'delivered'),
+    event: Joi.string().valid('pickup', 'in_transit', 'checkpoint', 'out_for_delivery', 'delivered'),
     message: Joi.string(),
     eventDescription: Joi.string(),
-    source: Joi.string().enum('gps', 'manual', 'api', 'simulated', 'delivery_provider')
+    source: Joi.string().valid('gps', 'manual', 'api', 'simulated', 'delivery_provider')
   }),
 
   logDeliveryAttempt: Joi.object({
-    status: Joi.string().enum('success', 'failed', 'no_answer').required(),
+    status: Joi.string().valid('success', 'failed', 'no_answer').required(),
     notes: Joi.string().max(500)
   }),
 

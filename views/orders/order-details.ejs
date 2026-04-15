@@ -1,0 +1,274 @@
+<% layout('layouts/boilerplate') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <%- include('../partials/flash') %>
+
+            <!-- Order Header -->
+            <div class="card mb-4 border-0 shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0">📦 <%= order.orderId %></h4>
+                        </div>
+                        <div>
+                            <span class="badge bg-<%= order.status === 'placed' ? 'warning' : order.status === 'confirmed' ? 'info' : order.status === 'shipped' ? 'info' : order.status === 'delivered' ? 'success' : 'danger' %>" style="font-size: 14px; padding: 8px 12px;">
+                                <%= order.status.toUpperCase() %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <small class="text-muted">Order Date</small>
+                            <p class="mb-0"><strong><%= new Date(order.createdAt).toLocaleDateString() %></strong></p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Payment Method</small>
+                            <p class="mb-0"><strong><%= order.paymentMethod === 'cash_on_delivery' ? '🚚 Cash on Delivery' : order.paymentMethod === 'stripe' ? '💳 Card' : order.paymentMethod %></strong></p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Payment Status</small>
+                            <p class="mb-0">
+                                <span class="badge bg-<%= order.paymentStatus === 'completed' ? 'success' : 'warning' %>">
+                                    <%= order.paymentStatus.toUpperCase() %>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Tracking Number</small>
+                            <p class="mb-0"><strong><%= order.trackingNumber %></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">📦 Order Items (<%= order.items.length %>)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order.items.forEach(item => { %>
+                                    <tr>
+                                        <td>
+                                            <strong><%= item.name %></strong>
+                                        </td>
+                                        <td>₹<%= item.price.toFixed(2) %></td>
+                                        <td><%= item.quantity %></td>
+                                        <td><strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong></td>
+                                        <td>
+                                            <span class="badge bg-<%= item.sellerStatus === 'pending' ? 'warning' : item.sellerStatus === 'processing' ? 'info' : item.sellerStatus === 'shipped' ? 'primary' : 'success' %>">
+                                                <%= item.sellerStatus.toUpperCase() %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Summary -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">💰 Price Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <strong>₹<%= order.pricing.subtotal.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Tax (18%):</span>
+                                <strong>₹<%= order.pricing.tax.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Shipping Charge:</span>
+                                <strong>₹<%= order.pricing.shippingCharge.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Discount:</span>
+                                <strong class="text-success">-₹<%= order.pricing.discountAmount.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="d-flex justify-content-between">
+                                <span>Total Amount:</span>
+                                <span class="text-success">₹<%= order.pricing.total.toFixed(2) %></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">📍 Delivery Address</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong><%= order.shippingAddress.fullName %></strong>
+                    </p>
+                    <p class="mb-2">
+                        <%= order.shippingAddress.street %>,<br>
+                        <%= order.shippingAddress.city %>, <%= order.shippingAddress.state %> <%= order.shippingAddress.pincode %>,<br>
+                        <%= order.shippingAddress.country %>
+                    </p>
+                    <p class="mb-2">
+                        <strong>Email:</strong> <%= order.shippingAddress.email %><br>
+                        <strong>Phone:</strong> <%= order.shippingAddress.phone %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Status History -->
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">📋 Status History</h5>
+                </div>
+                <div class="card-body">
+                    <% if (order.statusHistory && order.statusHistory.length > 0) { %>
+                        <% order.statusHistory.forEach((history, index) => { %>
+                            <div class="d-flex mb-3">
+                                <div class="me-3">
+                                    <span class="badge bg-primary rounded-circle" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                        <%= index + 1 %>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <p class="mb-1">
+                                        <strong><%= history.status.toUpperCase().replace(/_/g, ' ') %></strong>
+                                        <small class="text-muted float-end"><%= new Date(history.timestamp).toLocaleString() %></small>
+                                    </p>
+                                    <p class="mb-0 text-muted"><%= history.message %></p>
+                                    <% if (history.location) { %>
+                                        <p class="mb-0 text-muted"><small>📍 <%= history.location %></small></p>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <% if (index < order.statusHistory.length - 1) { %>
+                                <div class="d-flex mb-3">
+                                    <div style="width: 30px; display: flex; justify-content: center;">
+                                        <div style="border-left: 2px solid #0d6efd; height: 20px;"></div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="text-muted">No status updates yet.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Tracking Information -->
+            <% if (order.currentLocation) { %>
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">📍 Current Location</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-2">
+                            <strong>Address:</strong> <%= order.currentLocation.address %>
+                        </p>
+                        <p class="mb-2">
+                            <strong>Last Updated:</strong> <%= new Date(order.currentLocation.updatedAt).toLocaleString() %>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Estimated Delivery -->
+            <% if (order.estimatedDeliveryDate) { %>
+                <div class="card mb-4 bg-light">
+                    <div class="card-body">
+                        <p class="mb-0">
+                            <strong>📅 Estimated Delivery:</strong> <%= new Date(order.estimatedDeliveryDate).toLocaleDateString() %>
+                        </p>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <% if (['placed', 'confirmed'].includes(order.status)) { %>
+                        <button class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                            ✕ Cancel Order
+                        </button>
+                    <% } %>
+                    
+                    <a href="/user/orders" class="btn btn-outline-secondary btn-lg">
+                        ← Back to Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Cancel Order</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this order?</p>
+                <p class="text-muted"><small>This action cannot be undone.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Order</button>
+                <button type="button" class="btn btn-danger" onclick="cancelOrder()">Yes, Cancel Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function cancelOrder() {
+    fetch('/api/order/<%= order._id %>/cancel', { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+            if (data.success) {
+                alert('Order cancelled successfully');
+                location.reload();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(e => alert('Error cancelling order: ' + e.message));
+}
+</script>

@@ -1,0 +1,218 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">💳 Choose Payment Method</h2>
+            
+            <!-- Flash Messages -->
+            <%- include('../partials/flash') %>
+
+            <div class="card">
+                <div class="card-body p-4">
+                    <form id="checkoutForm" method="POST" action="/checkout/process">
+                        <!-- Order Summary -->
+                        <div class="card mb-4 bg-light">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">📦 Order Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <% items.forEach(item => { %>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><%= item.name %> (x<%= item.quantity %>)</span>
+                                        <strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong>
+                                    </div>
+                                <% }); %>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal:</span>
+                                    <strong>₹<%= subtotal.toFixed(2) %></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Tax (18%):</span>
+                                    <strong>₹<%= tax.toFixed(2) %></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Shipping:</span>
+                                    <strong>₹<%= shipping.toFixed(2) %></strong>
+                                </div>
+                                <h5 class="d-flex justify-content-between mt-3 pt-3 border-top">
+                                    <span>Total Amount:</span>
+                                    <span class="text-success">₹<%= total.toFixed(2) %></span>
+                                </h5>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Address -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">📍 Delivery Address</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="fullName">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName" name="shippingAddress[fullName]" required value="<%= user.name %>">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="shippingAddress[email]" required value="<%= user.email %>">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phone">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phone" name="shippingAddress[phone]" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="street">Street Address</label>
+                                        <input type="text" class="form-control" id="street" name="shippingAddress[street]" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" name="shippingAddress[city]" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="state">State</label>
+                                        <input type="text" class="form-control" id="state" name="shippingAddress[state]" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="pincode">Pincode</label>
+                                        <input type="text" class="form-control" id="pincode" name="shippingAddress[pincode]" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <label for="country">Country</label>
+                                        <input type="text" class="form-control" id="country" name="shippingAddress[country]" required value="India">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method Selection -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">💰 Payment Method</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check mb-3 p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="stripe" checked>
+                                    <label class="form-check-label w-100 cursor-pointer" for="creditCard">
+                                        <strong>💳 Credit/Debit Card (Stripe)</strong>
+                                        <p class="text-muted small mb-0">Pay instantly with your card. Secure payment gateway.</p>
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3 p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="cod">
+                                    <label class="form-check-label w-100 cursor-pointer" for="cod">
+                                        <strong>🚚 Cash on Delivery (COD)</strong>
+                                        <p class="text-muted small mb-0">Pay when your order arrives. No prepayment required.</p>
+                                    </label>
+                                </div>
+
+                                <div class="form-check p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="bookOrder" value="book_order">
+                                    <label class="form-check-label w-100 cursor-pointer" for="bookOrder">
+                                        <strong>📅 Book Order for Later</strong>
+                                        <p class="text-muted small mb-0">Reserve your items now, pay & receive later.</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Order Date (Hidden by default) -->
+                        <div class="card mb-4" id="bookingDateSection" style="display: none;">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">📅 Booking Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="expectedDate">Expected Delivery/Purchase Date *</label>
+                                    <input type="date" class="form-control" id="expectedDate" name="expectedDate">
+                                    <small class="form-text text-muted">Select when you want to purchase the items</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="bookingNotes">Special Notes (Optional)</label>
+                                    <textarea class="form-control" id="bookingNotes" name="bookingNotes" rows="3" placeholder="Any special instructions or notes..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg" id="checkoutBtn">
+                                💳 Proceed to Payment
+                            </button>
+                            <a href="/user/cart" class="btn btn-outline-secondary">← Back to Cart</a>
+                        </div>
+                    </form>
+
+                    <!-- Info Box -->
+                    <div class="alert alert-info mt-4" role="alert">
+                        <h6 class="alert-heading">ℹ️ Important Information</h6>
+                        <ul class="mb-0 small">
+                            <li><strong>Credit/Debit Card:</strong> Fastest option. Redirects to secure Stripe payment.</li>
+                            <li><strong>Cash on Delivery:</strong> Order is confirmed. Pay the delivery agent when items arrive.</li>
+                            <li><strong>Book Order:</strong> Reserve your items now. Confirm payment and delivery date later.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-check-label {
+        cursor: pointer;
+    }
+    
+    .form-check input[type="radio"]:checked {
+        accent-color: #0d6efd;
+    }
+    
+    .form-check div:has(input:checked) {
+        background-color: #e7f1ff !important;
+        border-color: #0d6efd !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        const bookingDateSection = document.getElementById('bookingDateSection');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const expectedDate = document.getElementById('expectedDate');
+
+        // Show/hide booking date section based on payment method
+        paymentMethodRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'book_order') {
+                    bookingDateSection.style.display = 'block';
+                    expectedDate.required = true;
+                    checkoutBtn.textContent = '📅 Confirm Booking';
+                } else {
+                    bookingDateSection.style.display = 'none';
+                    expectedDate.required = false;
+                    checkoutBtn.textContent = this.value === 'stripe' ? '💳 Proceed to Payment' : '✓ Confirm Order (COD)';
+                }
+            });
+        });
+
+        // Validate form
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            if (paymentMethod === 'book_order') {
+                const expectedDate = document.getElementById('expectedDate').value;
+                if (!expectedDate) {
+                    e.preventDefault();
+                    alert('Please select an expected delivery date for booking');
+                    return false;
+                }
+            }
+        });
+    });
+</script>

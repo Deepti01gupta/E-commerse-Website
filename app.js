@@ -15,10 +15,18 @@ const productRoutes=require('./routes/product');
 const reviewRoutes=require('./routes/review');
 const authRoutes=require('./routes/auth');
 const cartRoutes=require('./routes/cart');
+const orderRoutes=require('./routes/order');
+const returnRoutes=require('./routes/return');
+const refundRoutes=require('./routes/refund');
+const trackingRoutes=require('./routes/tracking');
+const sellerRoutes=require('./routes/seller');
+const notificationRoutes=require('./routes/notifications');
+const notificationEmitter=require('./services/notificationEmitter');
 
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/User');
+const BookedOrder = require('./models/BookedOrder');
 
 
 
@@ -46,6 +54,7 @@ app.set('views',path.join(__dirname,'views'));  // views folder
 app.use(express.static(path.join(__dirname,'public')));  // public folder
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());  // Add JSON middleware for API routes
 app.use(methodOverride('_method'));
 
 // session
@@ -92,7 +101,20 @@ app.get('/', (req,res)=>{
 
 app.use(productRoutes);  // so that har incoming request ke liye path check kiya jaye
 app.use(reviewRoutes);  // so that har incoming request ke liye path check kiya jaye
-app.use(authRoutes);   // so that har incoming request ke liye path check kiya jaye
+app.use(authRoutes);   // so that har incoming request ke liye path check kiya jay
+
+// Order & Delivery System API Routes
+app.use('/api/orders', orderRoutes);
+app.use('/api/returns', returnRoutes);
+app.use('/api/refunds', refundRoutes);
+app.use('/api/tracking', trackingRoutes);
+
+// Seller Dashboard API Routes
+app.use('/api/seller', sellerRoutes);
+
+// Notification System API Routes
+app.use('/api/notifications', notificationRoutes);
+
 app.use(cartRoutes);  // so that har incoming request ke liye path check kiya jaye
 
 

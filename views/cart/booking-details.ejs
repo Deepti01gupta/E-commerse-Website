@@ -1,0 +1,242 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <%- include('../partials/flash') %>
+
+            <!-- Booking Header -->
+            <div class="card mb-4 border-0 shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-0">📅 <%= booking.bookingId %></h4>
+                        </div>
+                        <div>
+                            <span class="badge <%= booking.status === 'pending' ? 'bg-warning' : booking.status === 'confirmed' ? 'bg-info' : booking.status === 'cancelled' ? 'bg-danger' : 'bg-success' %>" style="font-size: 16px; padding: 8px 12px;">
+                                <%= booking.status.toUpperCase().replace(/_/g, ' ') %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <small class="text-muted">Booking Date</small>
+                            <p class="mb-0"><strong><%= new Date(booking.bookingDate).toLocaleDateString() %></strong></p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Expected Delivery/Purchase Date</small>
+                            <p class="mb-0"><strong><%= new Date(booking.expectedBookingDate).toLocaleDateString() %></strong></p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Number of Items</small>
+                            <p class="mb-0"><strong><%= booking.items.length %> item(s)</strong></p>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Total Amount</small>
+                            <p class="mb-0"><strong class="text-success">₹<%= booking.pricing.total.toFixed(2) %></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booked Items -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">📦 Booked Items</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% booking.items.forEach(item => { %>
+                                    <tr>
+                                        <td>
+                                            <strong><%= item.name %></strong>
+                                        </td>
+                                        <td>₹<%= item.price.toFixed(2) %></td>
+                                        <td><%= item.quantity %></td>
+                                        <td><strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Summary -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">💰 Price Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <strong>₹<%= booking.pricing.subtotal.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Tax (18%):</span>
+                                <strong>₹<%= booking.pricing.tax.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Shipping Charge:</span>
+                                <strong>₹<%= booking.pricing.shippingCharge.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="d-flex justify-content-between mb-2">
+                                <span>Discount:</span>
+                                <strong class="text-success">-₹<%= booking.pricing.discountAmount.toFixed(2) %></strong>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="d-flex justify-content-between">
+                                <span>Total Amount:</span>
+                                <span class="text-success">₹<%= booking.pricing.total.toFixed(2) %></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">📍 Delivery Address</h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong><%= booking.bookingAddress.fullName %></strong>
+                    </p>
+                    <p class="mb-2">
+                        <%= booking.bookingAddress.street %>,<br>
+                        <%= booking.bookingAddress.city %>, <%= booking.bookingAddress.state %> <%= booking.bookingAddress.pincode %>,<br>
+                        <%= booking.bookingAddress.country %>
+                    </p>
+                    <p class="mb-2">
+                        <strong>Email:</strong> <%= booking.bookingAddress.email %><br>
+                        <strong>Phone:</strong> <%= booking.bookingAddress.phone %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Status History -->
+            <div class="card mb-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">📋 Status History</h5>
+                </div>
+                <div class="card-body">
+                    <% booking.statusHistory.forEach((history, index) => { %>
+                        <div class="d-flex mb-3">
+                            <div class="me-3">
+                                <span class="badge bg-primary rounded-circle" style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;">
+                                    <%= index + 1 %>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-1">
+                                    <strong><%= history.status.toUpperCase().replace(/_/g, ' ') %></strong>
+                                    <small class="text-muted float-end"><%= new Date(history.timestamp).toLocaleString() %></small>
+                                </p>
+                                <p class="mb-0 text-muted"><%= history.message %></p>
+                            </div>
+                        </div>
+                        <% if (index < booking.statusHistory.length - 1) { %>
+                            <div class="d-flex mb-3">
+                                <div style="width: 30px; display: flex; justify-content: center;">
+                                    <div style="border-left: 2px solid #0d6efd; height: 20px;"></div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }); %>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <% if (booking.notes) { %>
+                <div class="card mb-4 bg-light">
+                    <div class="card-header">
+                        <h5 class="mb-0">📝 Special Notes</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><%= booking.notes %></p>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <% if (booking.status === 'pending' || booking.status === 'confirmed') { %>
+                        <form method="POST" action="/booking/<%= booking._id %>/convert-to-order" class="d-inline">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                ✓ Convert to Order & Purchase Now
+                            </button>
+                        </form>
+                        <button class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#cancelModal">
+                            ✕ Cancel Booking
+                        </button>
+                    <% } else if (booking.status === 'converted_to_purchase') { %>
+                        <a href="/order/<%= booking.convertedOrderId %>" class="btn btn-primary btn-lg">
+                            📦 View Order Details
+                        </a>
+                    <% } else if (booking.status === 'cancelled') { %>
+                        <div class="alert alert-danger">
+                            ✕ This booking has been cancelled
+                        </div>
+                    <% } %>
+                    
+                    <a href="/user/bookings" class="btn btn-outline-secondary btn-lg">
+                        ← Back to Bookings
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Booking Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Cancel Booking</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="/booking/<%= booking._id %>/cancel">
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel this booking?</p>
+                    <div class="mb-3">
+                        <label for="reason">Reason for cancellation (optional):</label>
+                        <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Booking</button>
+                    <button type="submit" class="btn btn-danger">Yes, Cancel Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

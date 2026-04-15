@@ -1,0 +1,114 @@
+<% layout('layouts/boilerplate') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">📦 My Orders</h2>
+            
+            <%- include('../partials/flash') %>
+
+            <% if (orders.length === 0) { %>
+                <div class="alert alert-info text-center py-5">
+                    <h5>No orders yet</h5>
+                    <p>You haven't placed any orders yet.</p>
+                    <a href="/products" class="btn btn-primary">Start Shopping</a>
+                </div>
+            <% } else { %>
+                <div class="row">
+                    <% orders.forEach(order => { %>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-header" style="background-color: <%= order.status === 'placed' ? '#fff3cd' : order.status === 'confirmed' ? '#cfe2ff' : order.status === 'delivered' ? '#d1e7dd' : '#f8d7da' %>">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">
+                                            <%= order.orderId %>
+                                        </h5>
+                                        <span class="badge <%= order.status === 'placed' ? 'bg-warning' : order.status === 'confirmed' ? 'bg-info' : order.status === 'shipped' ? 'bg-primary' : order.status === 'delivered' ? 'bg-success' : 'bg-danger' %>">
+                                            <%= order.status.toUpperCase() %>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-2">
+                                        <small>Order Date: <%= new Date(order.createdAt).toLocaleDateString() %></small>
+                                    </p>
+                                    <p class="text-muted mb-3">
+                                        <small>Payment: 
+                                            <strong><%= order.paymentMethod === 'cash_on_delivery' ? '🚚 COD' : order.paymentMethod === 'stripe' ? '💳 Card' : order.paymentMethod %></strong>
+                                            (<span class="badge <%= order.paymentStatus === 'completed' ? 'bg-success' : 'bg-warning' %>"><%= order.paymentStatus %></span>)
+                                        </small>
+                                    </p>
+
+                                    <div class="mb-3">
+                                        <h6>Items (<%= order.items.length %>)</h6>
+                                        <ul class="list-unstyled small">
+                                            <% order.items.forEach(item => { %>
+                                                <li class="d-flex justify-content-between">
+                                                    <span><%= item.name %> (x<%= item.quantity %>)</span>
+                                                    <strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong>
+                                                </li>
+                                            <% }); %>
+                                        </ul>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <strong>Total Amount:</strong>
+                                        <h5 class="text-success mb-0">₹<%= order.pricing.total.toFixed(2) %></h5>
+                                    </div>
+
+                                    <% if (order.trackingNumber) { %>
+                                        <p class="text-muted mb-0">
+                                            <small>🔍 Tracking: <strong><%= order.trackingNumber %></strong></small>
+                                        </p>
+                                    <% } %>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <a href="/order/<%= order._id %>" class="btn btn-sm btn-primary">View Details</a>
+                                    <% if (['placed', 'confirmed'].includes(order.status)) { %>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="confirmCancel('<%= order._id %>')">Cancel</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <h6 class="alert-heading">ℹ️ Order Status Guide</h6>
+                <ul class="mb-0 small">
+                    <li><span class="badge bg-warning">PLACED</span> - Order received, awaiting confirmation</li>
+                    <li><span class="badge bg-info">CONFIRMED</span> - Order confirmed by seller</li>
+                    <li><span class="badge bg-primary">SHIPPED</span> - Order on the way</li>
+                    <li><span class="badge bg-success">DELIVERED</span> - Order delivered successfully</li>
+                    <li><span class="badge bg-danger">CANCELLED</span> - Order was cancelled</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmCancel(orderId) {
+    if (confirm('Are you sure you want to cancel this order?')) {
+        fetch(`/api/order/${orderId}/cancel`, { method: 'POST' })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Order cancelled successfully');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(e => alert('Error cancelling order: ' + e.message));
+    }
+}
+</script>
