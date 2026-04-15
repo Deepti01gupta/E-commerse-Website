@@ -20,10 +20,17 @@
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li> -->
       </ul>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+      <form class="d-flex app-search-form me-lg-3 mb-3 mb-lg-0" role="search" action="/products" method="GET">
+        <input
+          class="form-control me-2"
+          type="search"
+          name="q"
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+          placeholder="Search products"
+          aria-label="Search products"
+        />
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
+      </form>
 
       <div class="d-flex align-items-center" role="search">
         <button id="themeToggleBtn" class="btn btn-outline-secondary btn-sm me-2" type="button" aria-label="Toggle light and dark mode">

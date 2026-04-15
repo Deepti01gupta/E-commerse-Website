@@ -8,8 +8,18 @@ const {validateProduct, isLoggedIn, isSeller, isProductAuthor} = require('../mid
 // to show all the products
 router.get('/products', async (req,res)=>{
     try{
-        let products=await Product.find()
-        res.render('products/index',{products});
+        const searchQuery = (req.query.q || '').trim();
+        const filter = searchQuery
+            ? {
+                $or: [
+                    {name: {$regex: searchQuery, $options: 'i'}},
+                    {desc: {$regex: searchQuery, $options: 'i'}}
+                ]
+            }
+            : {};
+
+        let products=await Product.find(filter)
+        res.render('products/index',{products, searchQuery});
     }
     catch(e){
         res.status(500).render('error',{err:e.message});
