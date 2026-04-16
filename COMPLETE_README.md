@@ -1,291 +1,523 @@
-# 🛒 Complete E-Commerce Payment System
+# 🛒 Complete E-Commerce Platform
 
-A **production-ready, full-stack e-commerce payment system** with React frontend, secure authentication, and multi-gateway payment processing.
+A **production-ready, full-stack e-commerce system** with Node.js/Express backend, EJS templating, MongoDB database, and comprehensive features for buyers and sellers.
 
 ## ✨ Features Implemented
 
-### 🎨 Frontend (React + Vite)
-- ✅ **Modern React UI** - Using React 18.3, Vite, Tailwind CSS
-- ✅ **Responsive Design** - Mobile-first, optimized for all devices
-- ✅ **Search & Filters** - Real-time product search with debouncing
+### 🛍️ Core E-Commerce
+- ✅ **Product Management** - Browse, search, filter products
 - ✅ **Shopping Cart** - Add/remove products, quantity management
-- ✅ **Wishlist** - Save favorite products
-- ✅ **Dark Mode** - Complete dark theme support
-- ✅ **Checkout Page** - Complete payment flow with validation
-- ✅ **Address Form** - Controlled form with all required fields
-- ✅ **Coupon System** - Apply and validate discount codes
-- ✅ **Shipping Calculator** - Dynamic calculation by pincode
-- ✅ **Payment Methods** - Razorpay, Stripe, UPI, Wallet
-- ✅ **Order Summary** - Real-time pricing breakdown with tax
+- ✅ **Wishlist** - Save favorite products for later
+- ✅ **Product Reviews** - Rate and review purchased products
+- ✅ **Inventory Management** - Track stock levels
 
-### 🔒 Authentication (Secure Auth API)
-- ✅ **JWT Authentication** - Stateless, secure token-based auth
-- ✅ **OAuth 2.0** - Google and GitHub OAuth integration
-- ✅ **2FA (TOTP)** - Two-factor authentication with Speakeasy
-- ✅ **Password Hashing** - Bcryptjs with 12 salt rounds
-- ✅ **Password Reset** - Secure token-based reset flow
-- ✅ **Rate Limiting** - Differentiated limits per operation
-- ✅ **CORS Security** - Full CORS configuration
-- ✅ **HTTP-Only Cookies** - Secure token storage
+### 🔒 Authentication & Authorization
+- ✅ **User Registration** - Secure signup with email verification
+- ✅ **Login/Logout** - Session-based authentication with Passport.js
+- ✅ **Role-Based Access Control (RBAC)** - Buyer and Seller roles
+- ✅ **Password Hashing** - Bcryptjs encryption
+- ✅ **Session Management** - Secure HTTP-only cookies
 
-### 💳 Payment Processing (Payment System)
-- ✅ **Razorpay Integration** - UPI, Cards, Net Banking
-- ✅ **Stripe Integration** - International card payments
-- ✅ **Payment Verification** - HMAC signature validation
-- ✅ **Invoice Generation** - PDFKit-based professional invoices
-- ✅ **Order Tracking** - Complete order lifecycle management
-- ✅ **Coupon System** - Fixed/percentage discounts with validation
-- ✅ **Delivery Zones** - Location-based shipping rates
-- ✅ **Tax Calculation** - 18% GST on orders
-- ✅ **Email Notifications** - Order confirmation and failure alerts
+### 💳 Payment Processing  
+- ✅ **Stripe Integration** - Credit/Debit card payments
+- ✅ **Cash on Delivery (COD)** - Pay at delivery option
+- ✅ **Book Order** - Pre-book items with future delivery
+- ✅ **Payment Verification** - Secure payment confirmation
+- ✅ **Order Tracking** - Real-time order status and tracking
+- ✅ **Tax Calculation** - 18% GST on all orders
+- ✅ **Coupon System** - Apply discount codes
+
+### 📦 Order Management
+- ✅ **Order Creation** - Automated order generation
+- ✅ **Order History** - View past and current orders
+- ✅ **Order Cancellation** - Cancel pending orders
+- ✅ **Returns & Refunds** - Process product returns
+- ✅ **Order Details** - Complete order information display
+- ✅ **Booking System** - Pre-book items for future purchase
+
+### 🚚 Delivery & Shipping
+- ✅ **Address Management** - Save shipping addresses
+- ✅ **Shipping Calculation** - Zone-based shipping rates
+- ✅ **Tracking Updates** - Real-time delivery tracking
+- ✅ **Delivery Status** - Order fulfillment tracking
+
+### 🔔 Notifications  
+- ✅ **Firebase Push Notifications** - Real-time client-side alerts
+- ✅ **Email Notifications** - Order updates via email
+- ✅ **SMS Notifications** - Twilio-based text alerts
+- ✅ **Notification Center** - In-app notification history
+- ✅ **Device Token Management** - Multi-device support
+
+### 👨‍💼 Seller Features
+- ✅ **Seller Dashboard** - Sales analytics and metrics
+- ✅ **Seller Orders** - View and manage seller's orders
+- ✅ **Product Listings** - Add/edit/delete products
+- ✅ **Seller Analytics** - Sales performance tracking
+- ✅ **RBAC Protection** - Restricted seller access
+
+### 📊 Admin Features
+- ✅ **User Management** - Manage users and roles
+- ✅ **Order Management** - Administrative order controls
+- ✅ **Analytics Dashboard** - Sales and metrics overview
 
 ## 📦 Project Structure
 
 ```
 E_commerce website - Copy/
-├── 📄 PAYMENT_SYSTEM_INTEGRATION.md      (Integration guide)
-├── 📄 PAYMENT_TESTING_GUIDE.md           (Comprehensive test cases)
-├── 📄 README.md                          (This file)
-├── 🔧 start-all-services.sh              (Start all services)
-├── 🔧 setup-test-data.sh                 (Setup test data)
+├── 📄 Documentation Files
+│   ├── COMPLETE_README.md              (This file - System overview)
+│   ├── ARCHITECTURE_GUIDE.md           (System design & components)
+│   ├── IMPLEMENTATION_SUMMARY.md       (Features implemented)
+│   ├── PAYMENT_SYSTEM_INTEGRATION.md   (Payment gateway details)
+│   ├── COD_AND_BOOKING_GUIDE.md        (COD & booking system)
+│   ├── COD_BOOKING_QUICK_START.md      (Quick reference)
+│   ├── SELLER_DASHBOARD_GUIDE.md       (Seller features)
+│   ├── NOTIFICATION_INTEGRATION_GUIDE.md (Notifications setup)
+│   ├── ORDER_DELIVERY_INTEGRATION_COMPLETE.md (Order tracking)
+│   ├── INDEX.md                        (Documentation index)
+│   ├── CODE_REVIEW_REPORT.md           (Code quality review)
+│   └── PRODUCTION_DEPLOYMENT_CHECKLIST.md (Deployment guide)
 │
-├── react-ecommerce-ui/                   (Frontend - Vite + React)
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── checkout/
-│   │   │   │   ├── AddressForm.jsx       ✓ Shipping address form
-│   │   │   │   ├── CouponApplier.jsx     ✓ Coupon application
-│   │   │   │   ├── OrderSummary.jsx      ✓ Pricing breakdown
-│   │   │   │   ├── PaymentMethodSelector.jsx ✓ Payment options
-│   │   │   │   └── ShippingCalculator.jsx ✓ Shipping calculation
-│   │   │   ├── filters/
-│   │   │   ├── layout/
-│   │   │   ├── products/
-│   │   │   ├── search/
-│   │   │   └── cart/
-│   │   ├── pages/
-│   │   │   ├── checkout/
-│   │   │   │   ├── CheckoutPage.jsx      ✓ Main checkout page
-│   │   │   │   ├── CheckoutSuccessPage.jsx ✓ Success confirmation
-│   │   │   │   └── CheckoutFailurePage.jsx ✓ Failure handling
-│   │   │   ├── CartPage.jsx              ✓ Updated with checkout link
-│   │   │   ├── HomePage.jsx
-│   │   │   └── WishlistPage.jsx
-│   │   ├── context/
-│   │   │   └── StoreContext.jsx          (State management)
-│   │   └── App.jsx                       ✓ Updated with routes
-│   └── package.json
+├── 🔧 Startup Scripts
+│   ├── start-all-services.sh           (Start main server)
+│   ├── setup-test-data.sh              (Create test data)
+│   └── test-notifications.js           (Test notification system)
 │
-├── secure-auth-api/                      (Auth Backend - Node.js + Express)
-│   ├── src/
-│   │   ├── config/                       (Passport OAuth config)
-│   │   ├── controllers/                  (Auth logic)
-│   │   ├── middleware/                   (Auth, rate limit, errors)
-│   │   ├── models/                       (User model)
-│   │   ├── routes/                       (Auth endpoints)
-│   │   ├── services/                     (JWT, Email services)
-│   │   ├── utils/                        (Helpers)
-│   │   ├── validators/                   (Joi schemas)
-│   │   ├── app.js                        (Express app)
-│   │   └── server.js                     (Server bootstrap)
-│   └── package.json
+├── 🎯 Core Files
+│   ├── app.js                          (Main Express application)
+│   ├── middleware.js                   (Global middleware)
+│   ├── schema.js                        (Joi validation schemas)
+│   ├── seed.js                          (Database seeding)
+│   ├── package.json                     (Dependencies)
+│   ├── .env                             (Environment variables)
+│   └── serviceAccountKey.json           (Firebase admin credentials)
 │
-└── payment-system/                       (Payment Backend - Node.js + Express)
-    ├── src/
-    │   ├── config/                       (DB connection)
-    │   ├── controllers/                  (Checkout, Order, Coupon, Delivery)
-    │   ├── middleware/                   (Validation, errors)
-    │   ├── models/                       (Order, Coupon, DeliveryZone)
-    │   ├── routes/                       (API endpoints)
-    │   ├── services/                     (Stripe, Razorpay, Invoice, Email, etc.)
-    │   ├── utils/                        (Helpers, asyncHandler)
-    │   ├── validators/                   (Joi validation schemas)
-    │   ├── app.js                        (Express app)
-    │   └── server.js                     (Server bootstrap)
-    ├── .env.example                      (Environment template)
-    └── package.json
+├── 🗂️ Controllers/ (Business Logic)
+│   ├── notificationController.js        (Notification handling)
+│   └── sellerOrdersController.js        (Seller order management)
+│
+├── 🔐 Middleware/ (Authentication & Authorization)
+│   └── rbac.js                          (Role-based access control)
+│
+├── 📊 Models/ (MongoDB Schemas)
+│   ├── User.js                          (User accounts)
+│   ├── Product.js                       (Product catalog)
+│   ├── Order.js                         (Orders)
+│   ├── BookedOrder.js                   (Pre-booked orders)
+│   ├── Review.js                        (Product reviews)
+│   ├── Return.js                        (Return requests)
+│   ├── Refund.js                        (Refund processing)
+│   ├── TrackingUpdate.js                (Delivery tracking)
+│   ├── Notification.js                  (Notification records)
+│   └── DeviceToken.js                   (Firebase device tokens)
+│
+├── 🛣️ Routes/ (API Endpoints)
+│   ├── auth.js                          (Authentication - signup/login)
+│   ├── product.js                       (Product endpoints)
+│   ├── cart.js                          (Cart & checkout) ⭐
+│   ├── order.js                         (Order management)
+│   ├── review.js                        (Review endpoints)
+│   ├── seller.js                        (Seller operations)
+│   ├── notifications.js                 (Notification endpoints)
+│   ├── tracking.js                      (Order tracking)
+│   ├── refund.js                        (Refund processing)
+│   └── return.js                        (Return processing)
+│
+├── 🔧 Services/ (Business Logic Services)
+│   ├── emailService.js                  (Email notifications)
+│   ├── pushNotificationService.js       (Firebase push notifications)
+│   ├── smsService.js                    (Twilio SMS alerts)
+│   └── notificationEmitter.js           (Event-driven notifications)
+│
+├── 🔑 src/ (Configuration)
+│   └── firebase-config.js               (Firebase initialization)
+│
+├── 👁️ Views/ (EJS Templates)
+│   ├── layouts/
+│   │   └── boilerplate.ejs              (Main layout)
+│   │
+│   ├── partials/
+│   │   ├── navbar.ejs                   (Navigation bar)
+│   │   └── flash.ejs                    (Flash messages)
+│   │
+│   ├── auth/
+│   │   ├── login.ejs                    (Login form)
+│   │   └── signup.ejs                   (Signup form)
+│   │
+│   ├── products/
+│   │   ├── index.ejs                    (Product listing)
+│   │   ├── show.ejs                     (Product details)
+│   │   ├── new.ejs                      (Add new product)
+│   │   └── edit.ejs                     (Edit product)
+│   │
+│   ├── cart/
+│   │   ├── cart.ejs                     (Shopping cart)
+│   │   ├── checkout.ejs                 (Checkout page) ⭐
+│   │   ├── booking-details.ejs          (Booking details)
+│   │   └── bookings.ejs                 (Bookings list)
+│   │
+│   ├── components/
+│   │   ├── NotificationBell.jsx         (Notification indicator)
+│   │   ├── NotificationCenter.jsx       (Notification history)
+│   │   ├── OrdersList.jsx               (Order list display)
+│   │   ├── OrderDetail.jsx              (Order details view)
+│   │   ├── DashboardStats.jsx           (Analytics display)
+│   │   ├── StatusFilter.jsx             (Filtering component)
+│   │   └── PushPermissionRequest.jsx    (Permission prompt)
+│   │
+│   ├── orders/
+│   │   ├── orders-list.ejs              (User's orders)
+│   │   └── order-details.ejs            (Order details)
+│   │
+│   └── ...other views
+│
+├── 🎨 Public/ (Static Assets)
+│   ├── css/
+│   │   ├── app.css                      (Main styles)
+│   │   ├── NotificationBell.css         (Notification styles)
+│   │   ├── NotificationCenter.css       (Center styles)
+│   │   ├── PushPermissionRequest.css    (Permission styles)
+│   │   └── star.css                     (Rating styles)
+│   │
+│   ├── js/
+│   │   └── .js files
+│   │
+│   └── firebase-messaging-sw.js         (Service worker for push notifications)
+│
+└── 📦 node_modules/
+    └── Dependencies (installed packages)
 ```
 
-## 🚀 Quick Start (5 Minutes)
+## 🚀 Quick Start (10 Minutes)
 
 ### Prerequisites
-- Node.js 16+ installed
-- MongoDB running on localhost:27017
-- Git (optional)
+- **Node.js** 16+ and npm
+- **MongoDB** running locally (mongodb://127.0.0.1:27017/shopping-sam-app)
+- **Stripe Account** (for card payments)
+- **Firebase Project** (for push notifications)
+- **Twilio Account** (optional, for SMS)
+- **Nodemailer** compatible email (for email notifications)
 
-### Option 1: Using Bash Script (Linux/Mac)
+### Installation Steps
 
+#### Step 1: Clone/Download Project
 ```bash
-# Install MongoDB (if not already installed)
-# macOS: brew install mongodb-community
-# Linux: sudo apt-get install mongodb
-
-# Start MongoDB
-# macOS: brew services start mongodb-community
-# Linux: sudo systemctl start mongod
-
-# Clone or download this project
+# Navigate to project directory
 cd "E_commerce website - Copy"
-
-# Make scripts executable
-chmod +x start-all-services.sh setup-test-data.sh
-
-# Setup test data (coupons, delivery zones)
-./setup-test-data.sh
-
-# Start all services (frontend + backend)
-./start-all-services.sh
-
-# Open browser
-open http://localhost:5173
 ```
 
-### Option 2: Manual Setup (All Platforms)
-
-#### Terminal 1: Start Payment Backend
+#### Step 2: Install Dependencies  
 ```bash
-cd payment-system
-
-# Copy environment file
-cp .env.example .env
-# Edit .env with your Stripe/Razorpay keys
-
-# Install and start
 npm install
+```
+
+#### Step 3: Setup Environment Variables
+Create a `.env` file in the root directory:
+```env
+# Database
+MONGODB_URI=mongodb://127.0.0.1:27017/shopping-sam-app
+
+# Payment Gateways
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_PUBLIC_KEY=your_stripe_public_key
+RAZORPAY_SECRET_KEY=your_razorpay_secret
+RAZORPAY_PUBLIC_KEY=your_razorpay_public
+
+# Firebase (Push Notifications)
+FIREBASE_PROJECT_ID=your_firebase_project
+FIREBASE_PRIVATE_KEY=your_firebase_private_key
+FIREBASE_CLIENT_EMAIL=your_firebase_email
+
+# Email Service (Nodemailer)
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASSWORD=your_app_password
+
+# SMS Service (Twilio - optional)
+TWILIO_ACCOUNT_SID=your_twilio_account
+TWILIO_AUTH_TOKEN=your_twilio_token
+TWILIO_PHONE_NUMBER=+1XXXXXXXXXX
+
+# Server
+PORT=5000
+NODE_ENV=development
+SESSION_SECRET=your_session_secret_key
+```
+
+#### Step 4: Start MongoDB
+```bash
+# macOS (with Homebrew)
+brew services start mongodb-community
+
+# Linux
+sudo systemctl start mongod
+
+# Windows
+# MongoDB should auto-start or run: mongod
+```
+
+#### Step 5: Start Application
+```bash
+# Development mode (with nodemon)
 npm start
-# Server running at http://localhost:5001
+
+# Production mode  
+NODE_ENV=production npm start
+
+# Server runs at http://localhost:5000
 ```
 
-#### Terminal 2: Start React Frontend
+#### Step 6: Access the Application
 ```bash
-cd react-ecommerce-ui
-
-npm install
-npm run dev
-# Frontend running at http://localhost:5173
+# Browse to application
+# Main app: http://localhost:5000
 ```
 
-#### Terminal 3: Setup Test Data
-```bash
-# In the project root directory
-# For MongoDB shell connected to ecommerce-payment db
-mongosh
-# Then paste the setup commands from setup-test-data.sh
+## 🧪 Testing the Application
+
+### User Registration & Login
+1. Navigate to http://localhost:5000
+2. Click "Sign Up"
+3. Fill in email, password, confirm password
+4. Account created - now login
+5. Accept push notification permissions (for notifications)
+
+### Shopping Flow
+
+#### 1. **Browse Products**
+   - Homepage shows all products
+   - Click on product to view details
+   - Add to cart button on product page
+
+#### 2. **Manage Cart**
+   - Navigate to "Your Cart"
+   - View cart items with prices
+   - Update quantities or remove items
+   - Proceed to checkout
+
+#### 3. **Checkout Process**
+   - Fill shipping address
+   - Select payment method:
+     - **Stripe** (Card payments)
+     - **COD** (Cash on Delivery)
+     - **Book Order** (Pre-book for future)
+
+#### 4. **Stripe Payment** (If selected)
+   - Redirected to Stripe
+   - Test card: `4242 4242 4242 4242`
+   - Any future expiry date
+   - Any 3-digit CVC
+   - Order created on success
+
+#### 5. **View Order**
+   - After payment, access "Your Orders"
+   - See order status, items, tracking
+   - Request return/refund if needed
+
+### Seller Features
+
+#### Login as Seller
+1. During signup, select "Seller" role
+2. Access Seller Dashboard
+3. Manage products:
+   - Add new products
+   - Edit existing products
+   - View seller analytics
+
+#### Manage Orders
+1. Dashboard shows seller orders
+2. View order details
+3. Update order status
+4. Process refunds
+
+### Notifications
+
+#### Enable Push Notifications
+1. Click notification bell icon
+2. Grant browser permissions
+3. Receive real-time order updates
+
+#### Check Notification Center
+1. Click notification bell
+2. View notification history
+3. See order status changes
+
+## 🔑 Key Routes
+
+### Authentication Routes
+```
+GET/POST  /signup          - User registration
+GET/POST  /login           - User login
+GET       /logout          - Logout user
 ```
 
-### Access the Application
-
-1. **Frontend**: http://localhost:5173
-2. **API Docs**: http://localhost:5001/api
-3. **MongoDB**: mongodb://localhost:27017/ecommerce-payment
-
-## 🧪 Test the Payment Flow
-
-1. **Add Products to Cart**
-   - Browse homepage
-   - Click "Add to Cart" on products
-   - Cart icon shows item count
-
-2. **Navigate to Checkout**
-   - Click cart icon
-   - Review items
-   - Click "Checkout"
-
-3. **Fill Checkout Form**
-   - Enter shipping address
-   - Check shipping (pincode: 110001)
-   - Apply coupon: WELCOME20 (20% discount)
-   - Select payment method: Razorpay
-
-4. **Complete Payment**
-   - Click "Proceed to Payment"
-   - In Razorpay modal, use test card:
-     - Card: `4111 1111 1111 1111`
-     - CVV: Any 3 digits
-     - Expiry: Any future date
-   - Authorization OTP: `123456`
-
-5. **See Order Confirmation**
-   - Redirects to success page
-   - Shows order details
-   - Links to view all orders
-
-## 📋 API Endpoints
-
-### Checkout API
-
-```bash
-# Initiate checkout
-POST /api/checkout/initiate
-Content-Type: application/json
-
-{
-  "items": [{id, name, price, quantity, subtotal}],
-  "shippingAddress": {fullName, email, phone, street, city, state, pincode, country},
-  "paymentMethod": "razorpay|stripe|upi|wallet",
-  "couponCode": "WELCOME20"  # optional
-}
-
-Response:
-{
-  "success": true,
-  "order": {orderId, total},
-  "paymentData": {razorpayOrderId, razorpayKeyId}
-}
+### Product Routes
+```
+GET       /products        - List all products
+GET       /products/:id    - Product details
+POST      /products        - Create product (seller)
+PUT       /products/:id    - Edit product (seller)
+DELETE    /products/:id    - Delete product (seller)
+POST      /reviews         - Add product review
 ```
 
-### Verify Razorpay Payment
-
-```bash
-POST /api/checkout/verify-razorpay
-Content-Type: application/json
-
-{
-  "razorpayOrderId": "order_ABC123",
-  "razorpayPaymentId": "pay_ABC123",
-  "razorpaySignature": "signature_hash",
-  "orderId": "ORD_1234567890"
-}
+### Cart & Checkout Routes
+```
+GET       /user/cart                      - View cart
+POST      /user/:productId/add            - Add to cart
+POST      /checkout/process               - Process checkout
+POST      /checkout/success               - Payment success callback
+POST      /booking/:bookingId/convert     - Convert booking to order
 ```
 
-### Validate Coupon
-
-```bash
-POST /api/coupons/apply
-Content-Type: application/json
-
-{"code": "WELCOME20", "cartTotal": 5000}
-
-Response:
-{
-  "success": true,
-  "discountAmount": 1000,
-  "coupon": {code, discountType, discountValue, maxDiscountAmount}
-}
+### Order Routes
+```
+GET       /orders                         - Get user orders
+GET       /orders/:orderId                - Order details
+GET       /orders/:orderId/track          - Order tracking
+POST      /orders/:orderId/cancel         - Cancel order
 ```
 
-### Calculate Shipping
-
-```bash
-POST /api/delivery/calculate
-Content-Type: application/json
-
-{"pincode": "110001", "cartTotal": 5000}
-
-Response:
-{
-  "success": true,
-  "shippingCharge": 0,
-  "isFreeDelivery": true,
-  "processingDays": "2-3"
-}
+### Seller Routes
+```
+GET       /seller/dashboard               - Seller analytics
+GET       /seller/orders                  - Seller's orders
+POST      /seller/products                - Create product
+PUT       /seller/products/:id            - Edit product
 ```
 
-### Get Orders
+### Notification Routes
+```
+GET       /notifications                  - Get user notifications
+POST      /notifications/subscribe        - Subscribe to push
+DELETE    /notifications/:id              - Delete notification
+```
+
+### Account Routes
+```
+GET       /returns                        - View returns
+POST      /returns/:orderId               - Request return
+GET       /refunds                        - View refunds
+POST      /refunds/:orderId               - Request refund
+```
+
+## 📦 Dependencies
+
+### Core Framework
+- **express** ^5.1.0 - Web framework
+- **mongoose** ^8.18.1 - MongoDB ODM
+- **ejs** ^3.1.10 - Templating engine
+- **ejs-mate** ^4.0.0 - EJS layout support
+
+### Authentication & Security
+- **passport** ^0.7.0 - Authentication middleware
+- **passport-local** ^1.0.0 - Local strategy
+- **passport-local-mongoose** ^8.0.0 - Mongoose plugin
+- **bcryptjs** ^2.4.3 - Password hashing
+- **jsonwebtoken** ^9.0.0 - JWT tokens
+- **express-session** ^1.18.2 - Session management
+- **cors** ^2.8.5 - CORS middleware
+
+### Payment Processing
+- **stripe** ^21.0.0 - Stripe payments
+- **joi** ^18.0.1 - Schema validation
+
+### Notifications
+- **firebase-admin** ^13.8.0 - Firebase admin SDK
+- **nodemailer** ^8.0.5 - Email service
+- **twilio** ^5.13.1 - SMS service
+- **socket.io** ^4.5.1 - Real-time events
+
+### Utilities
+- **dotenv** ^17.3.1 - Environment variables
+- **uuid** ^9.0.0 - ID generation
+- **connect-flash** ^0.1.1 - Flash messages
+- **method-override** ^3.0.0 - HTTP method override
+- **nodemon** ^3.1.10 - Development reload
+
+## 🛠️ Development Commands
 
 ```bash
-GET /api/orders              # All user orders
-GET /api/orders/:orderId     # Specific order
+# Start development server
+npm start
+
+# Run tests (if configured)
+npm test
+
+# Lint code (if configured)
+npm run lint
+
+# View logs
+npm run logs
+
+# Database commands
+node setup-test-data.sh    # Seed test data
+mongosh                     # Connect to MongoDB
+```
+
+## 📚 Documentation
+
+For more detailed information, refer to:
+
+- [ARCHITECTURE_GUIDE.md](./ARCHITECTURE_GUIDE.md) - System architecture and data flow
+- [PAYMENT_SYSTEM_INTEGRATION.md](./PAYMENT_SYSTEM_INTEGRATION.md) - Payment gateway integration details
+- [COD_AND_BOOKING_GUIDE.md](./COD_AND_BOOKING_GUIDE.md) - COD and booking system documentation
+- [SELLER_DASHBOARD_GUIDE.md](./SELLER_DASHBOARD_GUIDE.md) - Seller feature documentation
+- [NOTIFICATION_INTEGRATION_GUIDE.md](./NOTIFICATION_INTEGRATION_GUIDE.md) - Notifications setup
+- [ORDER_DELIVERY_INTEGRATION_COMPLETE.md](./ORDER_DELIVERY_INTEGRATION_COMPLETE.md) - Order tracking integration
+- [PRODUCTION_DEPLOYMENT_CHECKLIST.md](./PRODUCTION_DEPLOYMENT_CHECKLIST.md) - Deployment guide
+- [INDEX.md](./INDEX.md) - Complete documentation index
+
+## 🐛 Troubleshooting
+
+### MongoDB Connection Error
+```
+Error: connect ECONNREFUSED 127.0.0.1:27017
+```
+**Solution:** Start MongoDB service:
+- macOS: `brew services start mongodb-community`
+- Linux: `sudo systemctl start mongod`
+
+### Stripe Error: Missing API Key
+```
+Error: Payment gateway is not configured. Please add STRIPE_SECRET_KEY.
+```
+**Solution:** Add `STRIPE_SECRET_KEY` to `.env` file from your Stripe dashboard
+
+### Firebase Push Notifications Not Working
+```
+Error: Firebase Admin SDK not configured
+```
+**Solution:** Upload `serviceAccountKey.json` from Firebase Console
+
+### Port Already in Use
+```
+Error: listen EADDRINUSE :::5000
+```
+**Solution:** Change PORT in `.env` or kill process using port 5000
+
+## 🤝 Contributing
+
+1. Create a new branch for features (`git checkout -b feature/new-feature`)
+2. Commit changes (`git commit -am 'Add new feature'`)
+3. Push to branch (`git push origin feature/new-feature`)
+4. Submit Pull Request
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+## 👨‍💻 Author
+
+**deepti gupta**
+
+## 🙏 Support
+
+For issues, questions, or suggestions, please reach out or open an issue in the repository.
+
+---
+
+**Last Updated:** April 16, 2026  
+**Status:** ✅ Production Ready
 GET /api/orders/:orderId/invoice  # Generate invoice
 ```
 

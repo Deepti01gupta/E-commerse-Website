@@ -1,11 +1,18 @@
 <% layout('layouts/boilerplate') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <h2 class="mb-4">📅 My Booked Orders</h2>
-            
-            <%- include('../partials/flash') %>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">📅 My Booked Orders</h2>
+                <div>
+                    <a href="/user/cart" class="btn btn-outline-primary btn-sm me-2">🛒 My Cart</a>
+                    <a href="/user/orders" class="btn btn-outline-secondary btn-sm me-2">📋 My Orders</a>
+                    <a href="/products" class="btn btn-outline-success btn-sm">Continue Shopping</a>
+                </div>
+            </div>
 
             <% if (bookings.length === 0) { %>
                 <div class="alert alert-info text-center py-5">
@@ -37,15 +44,22 @@
                                     </p>
 
                                     <div class="mb-3">
-                                        <h6>Items (<%= booking.items.length %>)</h6>
-                                        <ul class="list-unstyled small">
-                                            <% booking.items.forEach(item => { %>
-                                                <li class="d-flex justify-content-between">
-                                                    <span><%= item.name %> (x<%= item.quantity %>)</span>
-                                                    <strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong>
-                                                </li>
-                                            <% }); %>
-                                        </ul>
+                                        <h6 class="mb-3">📦 Items Ordered (<%= booking.items.length %>)</h6>
+                                        <% booking.items.forEach(item => { %>
+                                            <div class="d-flex mb-3 pb-3 border-bottom" style="align-items: flex-start;">
+                                                <% if (item.image) { %>
+                                                    <img src="<%= item.image %>" alt="<%= item.name %>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 12px;">
+                                                <% } else { %>
+                                                    <div style="width: 60px; height: 60px; background-color: #f0f0f0; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
+                                                        <small class="text-muted">No Image</small>
+                                                    </div>
+                                                <% } %>
+                                                <div style="flex: 1;">
+                                                    <p class="mb-1"><strong><%= item.name %></strong></p>
+                                                    <p class="mb-1 text-muted"><small>Price: ₹<%= item.price.toFixed(2) %> × <%= item.quantity %> = <strong>₹<%= (item.price * item.quantity).toFixed(2) %></strong></small></p>
+                                                </div>
+                                            </div>
+                                        <% }); %>
                                     </div>
 
                                     <hr>
